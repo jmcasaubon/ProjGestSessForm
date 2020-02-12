@@ -1,4 +1,3 @@
-# ProjGestSessForm
 Gestion de Session de Formation
 ===============================
 
