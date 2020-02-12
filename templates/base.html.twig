@@ -2,11 +2,32 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}GestSessForm{% endblock %}</title>
+        {% block stylesheets %}
+            <!-- Inclusion de UIkit (CSS & JavaScript) -->
+            <link rel="stylesheet" href="{{asset('css/uikit.min.css')}}" />
+            <script src="{{asset('js/uikit.min.js')}}"></script>
+            <script src="{{asset('js/uikit-icons.min.js')}}"></script>
+            <!-- Inclusion des styles personnels -->
+            <link rel="stylesheet" href="{{asset('css/style.css')}}" />
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block body %}
+        {% endblock %}
+        {% block javascripts %}
+            <!-- Inclusion de jQuery -->
+            <script
+                src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous">
+            </script>
+            <!-- Inclusion de Font Awesome -->
+            <script 
+                src="https://kit.fontawesome.com/5bda009b12.js" 
+                crossorigin="anonymous"></script> 
+            <!-- Inclusion du JavaScript local -->
+            <script src="{{asset('js/gsf.js')}}"></script>
+        {% endblock %}
     </body>
 </html>
