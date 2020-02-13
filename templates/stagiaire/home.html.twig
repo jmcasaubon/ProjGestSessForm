@@ -2,4 +2,30 @@
 
 {% block body %}
     <h1 class="center">Liste des stagiaires</h1>
+    <table class="with-borders">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Sexe</th>
+                <th>Date de<br>Naissance</th>
+                <th>Nb. sessions<br>en cours</th>
+                <th>Nb. sessions<br>achevées</th>
+                <th>Détails</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stagiaire in stagiaires %}
+            <tr>
+                <td class="left">{{stagiaire.nom | upper}}</td>
+                <td class="left">{{stagiaire.prenom | capitalize}}</td>
+                <td class="center">{{stagiaire.sexe}}</td>
+                <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
+                <td class="center">&nbsp;</td>
+                <td class="center">&nbsp;</td>
+                <td class="center"><a class="button" href="{{path('detail_stagiaire', {'id': stagiaire.id})}}"><i class="far fa-eye"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

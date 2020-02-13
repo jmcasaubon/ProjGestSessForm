@@ -34,6 +34,11 @@ class Stagiaire
     private $sexe;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    private $dateNaissance;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adresse;
@@ -105,6 +110,18 @@ class Stagiaire
     public function setSexe(string $sexe): self
     {
         $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): self
+    {
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }

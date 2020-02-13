@@ -53,8 +53,11 @@ table {
     border-collapse: collapse;
 }
 
-table tr td {
-    border: 1px solid #808080;
+table th {
+    background-color: #7fcfff;
+}
+table th,tr,td {
+    border: 1px solid #003f7f;
     padding: .5em;
 }
 table td.nb-left {
@@ -62,6 +65,12 @@ table td.nb-left {
 }
 table td.nb-right {
     border-right: 0;
+}
+table td.nb-top {
+    border-top: 0;
+}
+table td.nb-bottom {
+    border-bottom: 0;
 }
 
 /* Mise en page en-tête */

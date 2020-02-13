@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="center">Fiche stagiaire</h1>
+    <table>
+        <tbody>
+            <tr>
+                <td class="nb-top nb-left">&nbsp;</td>
+                <th>{{stagiaire.nom | upper}} {{stagiaire.prenom | capitalize}}</th>
+            </tr>
+           <tr>
+                <th>Né{% if stagiaire.sexe == 'F' %}e{% endif %} le :</th>
+                <td>{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
+            </tr>
+            <tr>
+                <th>Adresse :</th>
+                <td>{{stagiaire.adresse}}<br>{{stagiaire.cPostal}}&nbsp;{{stagiaire.ville | upper}}</td>
+            </tr>
+           <tr>
+                <th>Téléphone :</th>
+                <td>{{stagiaire.telephone}}</td>
+            </tr>
+            <tr>
+                <th>Mail :</th>
+                <td>{{stagiaire.mail}}</td>
+            </tr>
+        </tbody>
+    </table>
+ {% endblock %}

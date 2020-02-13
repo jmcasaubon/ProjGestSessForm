@@ -19,6 +19,15 @@ class StagiaireRepository extends ServiceEntityRepository
         parent::__construct($registry, Stagiaire::class);
     }
 
+    public function getAll()
+    {
+        $eMgr = $this->getEntityManager() ;
+
+        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Stagiaire s ORDER BY s.nom ASC, s.prenom ASC") ;
+
+        return $sql->execute() ;
+    }
+
     // /**
     //  * @return Stagiaire[] Returns an array of Stagiaire objects
     //  */

@@ -19,6 +19,15 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
+    public function getAll()
+    {
+        $eMgr = $this->getEntityManager() ;
+
+        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Session s ORDER BY s.dateFin DESC, s.dateDebut DESC") ;
+
+        return $sql->execute() ;
+    }
+
     // /**
     //  * @return Session[] Returns an array of Session objects
     //  */
