@@ -20,8 +20,8 @@
 }
 
 .button {
-    border: 1px solid #101010 ;
-    background-color: #303030;
+    border: 1px solid #003f7f ;
+    background-color: #007fff;
     color:white;
     border-radius: .25em;
     padding: .5em;
@@ -29,7 +29,7 @@
     text-decoration: none;
 }
 .button:hover {
-    background-color: #f0f0f0;
+    background-color: #7fcfff;
     color:#303030;
     text-decoration: none;
 }
@@ -45,7 +45,7 @@ body{
 hr {
     border: 0;
     height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(to right, rgba(0, 63, 127, 0), rgba(0, 63, 127, 0.8), rgba(0, 63, 127, 0));
 }
 
 table {
@@ -64,3 +64,35 @@ table td.nb-right {
     border-right: 0;
 }
 
+/* Mise en page en-tête */
+/************************/
+
+header {
+    display: flex ;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 1rem 0;
+}
+
+#logo {
+    display: flex ;
+    justify-content: flex-start;
+    align-items: center;
+}
+#logo h1 {
+    margin: auto;
+    padding-left: 2rem;
+}
+#logo img {
+    max-width: 96px;
+    max-height: 96px;
+}
+#menu {
+    flex: 1;
+    display: flex ;
+    justify-content: flex-end;
+    align-items: center;
+}
+#menu a{
+    margin-left: 2rem;
+}

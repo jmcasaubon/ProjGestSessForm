@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}GestSessForm{% endblock %}</title>
+        <title>{% block title %}JMC Formation{% endblock %}</title>
         {% block stylesheets %}
             <!-- Inclusion de UIkit (CSS & JavaScript) -->
             <link rel="stylesheet" href="{{asset('css/uikit.min.css')}}" />
@@ -13,8 +13,28 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <!-- Partie gauche de l'en-tête, contenant le logo (cliquable pour retourner en page d'accueil) et le nom du forum -->
+            <div id="logo">
+                <a href="{{path('home')}}"><img src="{{asset('img/avatar.png')}}" alt="Logo"></a>
+                <h1>JMC Formation</h1>
+            </div>
+            <!-- Partie droite de l'en-tête, gérant la barre de menu de navigation -->
+            <nav id="menu">
+                <a class="button" href="{{path('home')}}">Accueil</a>
+                <a class="button" href="{{path('home_session')}}">Sessions</a>
+                <a class="button" href="{{path('home_programme')}}">Programmation</a>
+                <a class="button" href="{{path('home_stagiaire')}}">Stagiaires</a>
+            </nav>
+        </header>
+        <hr>
         {% block body %}
         {% endblock %}
+        <hr>
+        <footer>
+            <!-- Pied de page réduit à son strict minimum ! -->
+            <p class="center">&copy; JMC - Février 2020</p>
+        </footer>
         {% block javascripts %}
             <!-- Inclusion de jQuery -->
             <script
