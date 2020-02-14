@@ -5,25 +5,52 @@
     <table>
         <tbody>
             <tr>
-                <td class="nb-top nb-left">&nbsp;</td>
+                <td class="center">
+                    <a class="button" href="#"><i class="fas fa-pencil-alt"></i></a>
+                </td>
                 <th>{{stagiaire.nom | upper}} {{stagiaire.prenom | capitalize}}</th>
             </tr>
            <tr>
-                <th>Né{% if stagiaire.sexe == 'F' %}e{% endif %} le :</th>
-                <td>{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
+                <th class="right">Né{% if stagiaire.sexe == 'F' %}e{% endif %} le</th>
+                <td>{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
             </tr>
             <tr>
-                <th>Adresse :</th>
+                <th class="right">Adresse</th>
                 <td>{{stagiaire.adresse}}<br>{{stagiaire.cPostal}}&nbsp;{{stagiaire.ville | upper}}</td>
             </tr>
            <tr>
-                <th>Téléphone :</th>
+                <th class="right">Téléphone</th>
                 <td>{{stagiaire.telephone}}</td>
             </tr>
             <tr>
-                <th>Mail :</th>
+                <th class="right">Mail</th>
                 <td>{{stagiaire.mail}}</td>
             </tr>
         </tbody>
     </table>
- {% endblock %}
+    <table>
+        <thead>
+            <tr>
+                <th colspan=4>Sessions suivies</th>
+            </tr>
+            <tr>
+                <th>Intitulé</th>
+                <th>Dates</th>
+                <th>Nb. jours</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in stagiaire.sessions %}
+            <tr>
+                <td class="left">{{session.intitule}}</td>
+                <td class="left">du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}}</td>
+                <td class="center">{{session.duree}}</td>
+                <td class="center">
+                    <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

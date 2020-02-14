@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Programme;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SessionRepository")
@@ -45,6 +46,7 @@ class Session
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Stagiaire", inversedBy="sessions")
+     * @ORM\OrderBy({"nom" = "ASC", "prenom" = "ASC"})
      */
     private $stagiaires;
 
@@ -162,5 +164,24 @@ class Session
         }
 
         return $this;
+    }
+
+    public function getDuree(): ?int
+    {
+        $duree = 0 ;
+        foreach ($this->programmes as $programme) {
+            $duree += $programme->getDuree() ;
+        }
+        return $duree;
+    }
+
+    public function getNbStagiaires(): ?int
+    {
+        return count($this->stagiaires);
+    }
+
+    public function getNbModules(): ?int
+    {
+        return count($this->programmes);
     }
 }

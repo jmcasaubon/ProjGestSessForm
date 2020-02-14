@@ -27,6 +27,7 @@
     padding: .5em;
     text-align: center;
     text-decoration: none;
+    min-width: 39px;
 }
 .button:hover {
     background-color: #7fcfff;

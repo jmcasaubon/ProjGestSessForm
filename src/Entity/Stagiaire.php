@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StagiaireRepository")
@@ -212,5 +213,41 @@ class Stagiaire
         }
 
         return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        $now = new DateTime("NOW") ;
+        return $now->diff($this->dateNaissance)->y ;
+    }
+
+    public function getNbSessionsFutures(): int
+    {
+        $now = new DateTime("NOW") ;
+        $nbsess = 0 ;
+        foreach ($this->sessions as $session) {
+            $nbsess += ($now < $session->getDateDebut()) ? 1 : 0 ;
+        }
+        return $nbsess ;
+    }
+
+    public function getNbSessionsEnCours(): int
+    {
+        $now = new DateTime("NOW") ;
+        $nbsess = 0 ;
+        foreach ($this->sessions as $session) {
+            $nbsess += (($now >= $session->getDateDebut()) && (now <= $session->getDateFin())) ? 1 : 0 ;
+        }
+        return $nbsess ;
+    }
+
+    public function getNbSessionsAchevees(): int
+    {
+        $now = new DateTime("NOW") ;
+        $nbsess = 0 ;
+        foreach ($this->sessions as $session) {
+            $nbsess += ($now > $session->getDateFin()) ? 1 : 0 ;
+        }
+        return $nbsess ;
     }
 }

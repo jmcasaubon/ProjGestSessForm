@@ -9,8 +9,9 @@
                 <th>Prénom</th>
                 <th>Sexe</th>
                 <th>Date de<br>Naissance</th>
-                <th>Nb. sessions<br>en cours</th>
                 <th>Nb. sessions<br>achevées</th>
+                <th>Nb. sessions<br>en cours</th>
+                <th>Nb. sessions<br>à venir</th>
                 <th>Détails</th>
             </tr>
         </thead>
@@ -21,8 +22,9 @@
                 <td class="left">{{stagiaire.prenom | capitalize}}</td>
                 <td class="center">{{stagiaire.sexe}}</td>
                 <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
-                <td class="center">&nbsp;</td>
-                <td class="center">&nbsp;</td>
+                <td class="center">{{stagiaire.nbSessionsAchevees}}</td>
+                <td class="center">{{stagiaire.nbSessionsEnCours}}</td>
+                <td class="center">{{stagiaire.nbSessionsFutures}}</td>
                 <td class="center"><a class="button" href="{{path('detail_stagiaire', {'id': stagiaire.id})}}"><i class="far fa-eye"></i></a></td>
             </tr>
             {% endfor %}

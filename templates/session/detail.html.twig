@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="center">Programme session</h1>
+    <table>
+        <tbody>
+            <tr>
+                <td class="center">
+                    <a class="button" href="#"><i class="fas fa-pencil-alt"></i></a>
+                </td>
+                <th>{{session.intitule}}</th>
+            </tr>
+           <tr>
+                <th class="right">Dates</th>
+                <td>du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}}</td>
+            </tr>
+            <tr>
+                <th class="right">Durée</th>
+                <td>{{session.duree}} jours</td>
+            </tr>
+            <tr>
+                <th class="right">Nb. places</th>
+                <td>{{session.nbPlaces}} participants</td>
+            </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan=4>Programme</th>
+            </tr>
+            <tr>
+                <th>Catégorie</th>
+                <th>Module</th>
+                <th>Nb. jours</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for programme in session.programmes %}
+            <tr>
+                <td class="left">{{programme.module.categorie.libelle}}</td>
+                <td class="left">{{programme.module.libelle}}</td>
+                <td class="center">{{programme.duree}}</td>
+                <td class="center">
+                    <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th colspan=4>Participants</th>
+            </tr>
+            <tr>
+                <th>Nom &amp; prénom</th>
+                <th>Sexe</th>
+                <th>Date de Naissance</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stagiaire in session.stagiaires %}
+            <tr>
+                <td class="left">{{stagiaire.nom | upper}} {{stagiaire.prenom | capitalize}}</td>
+                <td class="center">{{stagiaire.sexe}}</td>
+                <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
+                <td class="center">
+                    <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

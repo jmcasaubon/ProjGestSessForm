@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <section>
+        {% for vehicle in vehicles %}
+            <div>
+                <h3>
+                    <a href="{{ path('view_vehicle', {'id' : vehicle.id }) }}">
+                        {{ vehicle.brand }} {{ vehicle.model}}
+                    </a>
+                </h3>
+                
+                <p>Owned by 
+                {% if app.user == vehicle.user %}
+                    yourself
+                    <a href="{{ path('edit_vehicle', {'id' : vehicle.id }) }}">Modifier</a>
+                    <a href="{{ path('delete_vehicle', {'id' : vehicle.id }) }}">Supprimer</a>
+                {% else %}
+                    {{ vehicle.user.username }}
+                {% endif %}
+                
+                </p>
+            </div>
+        {% endfor %}
+    </section>
+
+{% endblock %}

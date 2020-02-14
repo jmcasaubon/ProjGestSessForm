@@ -11,8 +11,7 @@
                 <th>Nb. Places<br>théoriques</th>
                 <th>Nb. Places<br>réservées</th>
                 <th>Nb. Places<br>disponibles</th>
-                <th>Détail<br>programme</th>
-                <th>Détail<br>participants</th>
+                <th>Détails</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +23,7 @@
                 <td class="center">{{session.nbPlaces}}</td>
                 <td class="center">{{session.stagiaires | length}}</td>
                 <td class="center">{{session.nbPlaces - (session.stagiaires | length)}}</td>
-                <td class="center"><a class="button" href="#"><i class="far fa-eye"></i></a></td>
-                <td class="center"><a class="button" href="#"><i class="far fa-eye"></i></a></td>
+                <td class="center"><a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>

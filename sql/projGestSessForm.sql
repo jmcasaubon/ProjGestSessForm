@@ -25,12 +25,12 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.categorie : ~4 rows (environ)
+-- Listage des données de la table projgestsessform.categorie : ~5 rows (environ)
 DELETE FROM `categorie`;
 /*!40000 ALTER TABLE `categorie` DISABLE KEYS */;
 INSERT INTO `categorie` (`id`, `libelle`) VALUES
 	(1, 'Bureautique'),
-	(2, 'Développemen Web'),
+	(2, 'Développement Web'),
 	(3, 'Infographie'),
 	(4, 'P.A.O.'),
 	(5, 'Gestion de projet');
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   CONSTRAINT `FK_C242628BCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.module : ~11 rows (environ)
+-- Listage des données de la table projgestsessform.module : ~13 rows (environ)
 DELETE FROM `module`;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`id`, `categorie_id`, `libelle`, `duree_suggeree`) VALUES
@@ -94,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `programme` (
   KEY `IDX_3DDCB9FFAFC2B591` (`module_id`),
   CONSTRAINT `FK_3DDCB9FF613FECDF` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`),
   CONSTRAINT `FK_3DDCB9FFAFC2B591` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.programme : ~8 rows (environ)
+-- Listage des données de la table projgestsessform.programme : ~9 rows (environ)
 DELETE FROM `programme`;
 /*!40000 ALTER TABLE `programme` DISABLE KEYS */;
 INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
@@ -108,7 +108,10 @@ INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
 	(6, 2, 5, 2),
 	(7, 2, 12, 2),
 	(8, 2, 13, 3),
-	(9, 2, 11, 20);
+	(9, 2, 11, 20),
+	(10, 3, 1, 3),
+	(11, 3, 2, 3),
+	(12, 3, 10, 4);
 /*!40000 ALTER TABLE `programme` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. session
@@ -120,14 +123,15 @@ CREATE TABLE IF NOT EXISTS `session` (
   `date_fin` date NOT NULL,
   `nb_places` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projgestsessform.session : ~2 rows (environ)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `intitule`, `date_debut`, `date_fin`, `nb_places`) VALUES
 	(1, 'Initiation bureautique', '2020-03-02', '2020-03-13', 12),
-	(2, 'Développeur Web', '2020-02-17', '2020-06-12', 10);
+	(2, 'Développeur Web', '2020-02-17', '2020-06-12', 10),
+	(3, 'Bureautique avancée', '2020-03-16', '2020-03-27', 10);
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. session_stagiaire
@@ -142,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `session_stagiaire` (
   CONSTRAINT `FK_C80B23BBBA93DD6` FOREIGN KEY (`stagiaire_id`) REFERENCES `stagiaire` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.session_stagiaire : ~4 rows (environ)
+-- Listage des données de la table projgestsessform.session_stagiaire : ~5 rows (environ)
 DELETE FROM `session_stagiaire`;
 /*!40000 ALTER TABLE `session_stagiaire` DISABLE KEYS */;
 INSERT INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES
@@ -150,7 +154,8 @@ INSERT INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES
 	(1, 8),
 	(2, 4),
 	(2, 5),
-	(2, 9);
+	(2, 9),
+	(3, 6);
 /*!40000 ALTER TABLE `session_stagiaire` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. stagiaire
@@ -164,24 +169,24 @@ CREATE TABLE IF NOT EXISTS `stagiaire` (
   `adresse` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cpostal` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ville` varchar(63) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telephone` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telephone` varchar(23) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.stagiaire : ~9 rows (environ)
+-- Listage des données de la table projgestsessform.stagiaire : ~8 rows (environ)
 DELETE FROM `stagiaire`;
 /*!40000 ALTER TABLE `stagiaire` DISABLE KEYS */;
 INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `sexe`, `date_naissance`, `adresse`, `cpostal`, `ville`, `telephone`, `mail`) VALUES
-	(1, 'Dupont', 'Michel', 'M', '1999-01-16', '27 av. Rockfeller', '69008', 'Lyon', NULL, 'michel.dupont@gmail.com'),
-	(2, 'Dupont', 'Sandrine', 'F', '2000-02-14', '202 av. de Colmar', '67000', 'Strasbourg', NULL, 'sandrine.dupont@gmail.com'),
-	(3, 'Dupond', 'Paul', 'M', '1999-09-27', '12 rue Casimir Périer', '69002', 'Lyon', NULL, 'paul.dupond@hotmail.com'),
-	(4, 'Durand', 'Michel', 'M', '1999-07-21', '21 rue de Lyon', '68000', 'Mulhouse', NULL, 'michel.durand@hotmail.com'),
-	(5, 'Martin', 'Arthur', 'M', '2000-03-01', 'Allées des cuisines', '44730', 'St-Michel-Chef-Chef', NULL, 'arthur.martin@gmail.com'),
-	(6, 'Darc', 'Jeanne', 'F', '1999-12-31', 'Rue de l\'Annociation', '88630', 'Domremy', NULL, 'jeanne.darc@hotmail.com'),
-	(7, 'Dubois', 'Aline', 'F', '2000-01-03', 'Allée de la forêt', '91665', 'La Ville-du-Bois', NULL, 'aline.dubois@gmail.com'),
-	(8, 'Lamère', 'Michèle', 'F', '1999-11-30', 'Avenue du Matou Matheux', '77370', 'La Chapelle-du-Mont-du-Chat', NULL, 'michele.lamere@gmail.com'),
-	(9, 'Moreau', 'Jean', 'M', '1999-06-02', '11 rue Sainte Barbe', '67260', 'Rimsdorf', NULL, 'jean.moreau@hotmail.com');
+	(1, 'Dupont', 'Michel', 'M', '1999-01-16', '27 av. Rockfeller', '69008', 'Lyon', '(+33) 4 56 78 90 12', 'michel.dupont@gmail.com'),
+	(2, 'Dupont', 'Sandrine', 'F', '2000-02-14', '202 av. de Colmar', '67000', 'Strasbourg', '(+33) 3 45 67 89 01', 'sandrine.dupont@gmail.com'),
+	(3, 'Dupond', 'Paul', 'M', '1999-09-27', '12 rue Casimir Périer', '69002', 'Lyon', '(+33) 4 32 10 98 76', 'paul.dupond@hotmail.com'),
+	(4, 'Durand', 'Michel', 'M', '1999-07-21', '21 rue de Lyon', '68000', 'Mulhouse', '(+33) 3 21 09 87 65', 'michel.durand@hotmail.com'),
+	(5, 'Martin', 'Arthur', 'M', '2000-03-01', 'Allées des cuisines', '44730', 'St-Michel-Chef-Chef', '(+33) 2 34 56 78 90', 'arthur.martin@gmail.com'),
+	(6, 'Darc', 'Jeanne', 'F', '1999-12-31', 'Rue de l\'Annonciation', '88630', 'Domremy', '(+33) 3 57 91 24 68', 'jeanne.darc@hotmail.com'),
+	(7, 'Dubois', 'Aline', 'F', '2000-01-03', 'Allée de la forêt', '91665', 'La Ville-du-Bois', '(+33) 1 23 45 67 89', 'aline.dubois@gmail.com'),
+	(8, 'Lamère', 'Michèle', 'F', '1999-11-30', 'Avenue du Matou Matheux', '77370', 'La Chapelle-du-Mont-du-Chat', '(+33) 1 09 87 65 43', 'michele.lamere@gmail.com'),
+	(9, 'Moreau', 'Jean', 'M', '1999-06-02', '11 rue Sainte Barbe', '67260', 'Rimsdorf', '(+33) 6 78 90 12 34', 'jean.moreau@hotmail.com');
 /*!40000 ALTER TABLE `stagiaire` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
