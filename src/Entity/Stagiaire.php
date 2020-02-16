@@ -236,7 +236,7 @@ class Stagiaire
         $now = new DateTime("NOW") ;
         $nbsess = 0 ;
         foreach ($this->sessions as $session) {
-            $nbsess += (($now >= $session->getDateDebut()) && (now <= $session->getDateFin())) ? 1 : 0 ;
+            $nbsess += (($now >= $session->getDateDebut()) && ($now <= $session->getDateFin())) ? 1 : 0 ;
         }
         return $nbsess ;
     }
