@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Session;
+use App\Form\SessionType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +27,63 @@ class SessionController extends AbstractController
         return $this->render('session/home.html.twig', [
             'sessions' => $sessions,
         ]);
+    }
+
+    /**
+     * @Route("/add", name="add_session")
+     */
+    public function add(Request $request, EntityManagerInterface $emi) 
+    {
+        $session = new Session();
+
+        $form = $this->createForm(SessionType::class, $session);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $emi->persist($session);
+            $emi->flush();
+
+            return $this->redirectToRoute('home_session');
+        }
+        
+        return $this->render('session/form.html.twig', [
+            "form" => $form->createView(),
+            "title" => "Ajouter"
+        ]);
+    }
+
+    /**
+     * @Route("/update/{id}", name="update_session")
+     */
+    public function update(Session $session, Request $request, EntityManagerInterface $emi)
+    {
+        $form = $this->createForm(SessionType::class, $session);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $emi->persist($session);
+            $emi->flush();
+
+            return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
+        }
+        
+        return $this->render('session/form.html.twig', [
+            "form" => $form->createView(),
+            "title" => "Modifier"
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete_session")
+     */
+    public function delete(Session $session, EntityManagerInterface $emi)
+    {
+        $emi->remove($session);
+        $emi->flush();
+
+        return $this->redirectToRoute("home");
     }
 
     /**

@@ -24,8 +24,11 @@ class StagiaireType extends AbstractType
             ->add('prenom',         TextType::class, [
                 'label' => 'Prénom'
             ])
-            ->add('sexe',           ChoiceType::class,[
-                'choices' => [ 'Homme' => 'M', 'Femme' => 'F' ]
+            ->add('sexe',           ChoiceType::class, [
+                'label' => 'Genre',
+                'choices' => [ 'Masculin' => 'M', 'Féminin' => 'F' ],
+                'expanded' => true,
+                'multiple' => false
             ])
             ->add('dateNaissance',  BirthdayType::class, [
                 'label' => 'Date de Naissance',
@@ -50,7 +53,9 @@ class StagiaireType extends AbstractType
             ->add('mail',           EmailType::class, [
                 'label' => 'Adresse de messagerie'
             ])
-            ->add('Enregistrer',    SubmitType::class)
+            ->add('Enregistrer',    SubmitType::class, [
+                'attr' => [ 'class' => 'button' ]
+            ])
         ;
     }
 

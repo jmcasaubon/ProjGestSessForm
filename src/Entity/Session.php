@@ -40,7 +40,8 @@ class Session
     private $nbPlaces;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Programme", mappedBy="session")
+     * @ORM\OneToMany(targetEntity="App\Entity\Programme", mappedBy="session", cascade={"persist"})
+     * @ORM\OrderBy({"module" = "ASC"})
      */
     private $programmes;
 

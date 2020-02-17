@@ -73,4 +73,9 @@ class Programme
 
         return $this;
     }
+
+    public function getCategorieModule(): ?string
+    {
+        return $this->module->getCategorieLibelle();
+    }
 }

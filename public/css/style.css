@@ -18,6 +18,9 @@
     display: flex;
     flex-wrap: wrap;
 }
+.flex-action {
+    justify-content: space-around;        
+}
 
 .button {
     border: 1px solid #003f7f ;
