@@ -1,23 +1,39 @@
 $(document).ready(function() { // Une fois que le document (base.html.twig) HTML/CSS a bien été complètement chargé...
     // add-collection-widget.js
-    jQuery('.add-another-collection-widget').click(function (e) {
-        var list = jQuery(jQuery(this).attr('data-list-selector'));
+    $('.add-another-collection-widget').click(function (e) {
+        var list = $($(this).attr('data-list-selector'))
         // Try to find the counter of the list or use the length of the list
-        var counter = list.data('widget-counter') || list.children().length;
-
+        var counter = list.data('widget-counter') || list.children().length
+        var session = list.data('session')
         // grab the prototype template
-        var newWidget = list.attr('data-prototype');
+        var newWidget = list.attr('data-prototype')
         // replace the "__name__" used in the id and name of the prototype
         // with a number that's unique to "programmes"
         // end name attribute looks like name="session[programmes][2]"
-        newWidget = newWidget.replace(/__name__/g, counter);
+        newWidget = newWidget.replace(/__name__/g, counter)
+        newWidget = newWidget.replace(/input type="hidden"/, 'input type="hidden" value="'+session+'"')
         // Increase the counter
-        counter++;
+        counter++
         // And store it, the length cannot be used if deleting widgets is allowed
-        list.data('widget-counter', counter);
+        list.data('widget-counter', counter)
 
         // create a new list element and add it to the list
-        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-        newElem.appendTo(list);
+        var newElem = $(list.attr('data-widget-tags')).html(newWidget)
+        newElem.appendTo(list)
     });
+
+    $('.remove-collection-widget').find('span').each(function() {
+        addDeleteLink($(this))
+        console.log ('added')
+    })
+
+    function addDeleteLink($moduleForm) {
+        var $removeFormButton = $('<button type="button" class="button flex-action">Supprimer ce module</button>');
+        $moduleForm.append($removeFormButton)
+    
+        $removeFormButton.on('click', function(e) {
+            $moduleForm.remove()
+        });
+    
+    }
 })

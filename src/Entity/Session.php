@@ -185,4 +185,14 @@ class Session
     {
         return count($this->programmes);
     }
+
+    public function getItself(): self
+    {
+        return $this;
+    }
+
+    public function __toString(): ?string
+    {
+        return $this->intitule;
+    }
 }

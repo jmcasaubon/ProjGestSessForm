@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{dump(sessionId)}}
+    
     <h1 class="center">{{title}} une session</h1>
 
     {{ form_start(form) }}
@@ -12,16 +14,18 @@
 
     {# store the prototype on the data-prototype attribute #}
     <h2 class="center">Liste des modules</h2>
-    <div class="form-group row">
+    <div class="form-group row ">
         <div class="col-form-label col-sm-2">&nbsp;</div>
-        <div id="programme-fields-list" class="col-sm-10"
+        <div id="programme-fields-list" class="col-sm-10 remove-collection-widget"
             data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+            data-session="{{sessionId}}"
             data-widget-tags="{{ '<p></p>'|e }}"
             data-widget-counter="{{ form.programmes|length }}">
         {% for programmeField in form.programmes %}
             <p>
                 {{ form_errors(programmeField) }}
-                {{ form_widget(programmeField) }}
+                {{ form_widget(programmeField, {'attr': {'class': 'borders'}}) }}
+                <span></span>
             </p>
         {% endfor %}
         </div>

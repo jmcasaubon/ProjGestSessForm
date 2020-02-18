@@ -78,4 +78,9 @@ class Programme
     {
         return $this->module->getCategorieLibelle();
     }
+
+    public function __toString(): ?string
+    {
+        return $this->getCategorieModule();
+    }
 }

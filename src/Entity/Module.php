@@ -123,6 +123,6 @@ class Module
 
     public function __toString(): ?string
     {
-        return $this->categorie->getLibelle()." - ".$this->libelle;
+        return $this->getCategorieLibelle();
     }
 }
