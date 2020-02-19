@@ -10,7 +10,7 @@
     {{ form_row(form.dateFin) }}
     {{ form_row(form.nbPlaces) }}
 
-    {# store the prototype on the data-prototype attribute #}
+    {# construit dynamiquement la liste des modules existants, à partir de la collection de programmes (cf. également "gsf.js") #}
     <h2 class="center">Liste des modules</h2>
     <div class="form-group row ">
         <div class="col-form-label col-sm-2">&nbsp;</div>
@@ -32,6 +32,9 @@
             class="add-another-collection-widget button"
             data-list-selector="#programme-fields-list">Ajouter un nouveau module</button>
     </div>
+
+    {# empêche l'apparition d'une légende "programmes", si la collection est vide (en cas de création d'une nouvelle session) #}
+    {% do form.programmes.setRendered %}
 
     {{ form_end(form) }}
     
