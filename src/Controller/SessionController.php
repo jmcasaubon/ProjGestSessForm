@@ -59,22 +59,26 @@ class SessionController extends AbstractController
      */
     public function update(Session $session, Request $request, EntityManagerInterface $emi)
     {
-        $form = $this->createForm(SessionType::class, $session);
+        if ($session->getFuture()) {
+            $form = $this->createForm(SessionType::class, $session);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            $emi->persist($session);
-            $emi->flush();
+            if($form->isSubmitted() && $form->isValid()){
+                $emi->persist($session);
+                $emi->flush();
 
-            return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
+                return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
+            }
+            
+            return $this->render('session/form.html.twig', [
+                "form" => $form->createView(),
+                "title" => "Modifier",
+                "sessionId" => $session->getId()
+            ]);
+        } else {
+            return $this->redirectToRoute('home_session');
         }
-        
-        return $this->render('session/form.html.twig', [
-            "form" => $form->createView(),
-            "title" => "Modifier",
-            "sessionId" => $session->getId()
-        ]);
     }
 
     /**
@@ -82,10 +86,14 @@ class SessionController extends AbstractController
      */
     public function delete(Session $session, EntityManagerInterface $emi)
     {
-        $emi->remove($session);
-        $emi->flush();
+        if ($session->getFuture()) {
+                $emi->remove($session);
+            $emi->flush();
 
-        return $this->redirectToRoute("home");
+            return $this->redirectToRoute("home");
+        } else {
+            return $this->redirectToRoute('home_session');
+        }
     }
 
     /**

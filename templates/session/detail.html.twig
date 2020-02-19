@@ -6,7 +6,9 @@
         <tbody>
             <tr>
                 <td class="center">
+                    {% if session.future %}
                     <a class="button" href="{{path('update_session', {'id': session.id})}}"><i class="fas fa-pencil-alt"></i></a>
+                    {% endif %}
                 </td>
                 <th>{{session.intitule}}</th>
             </tr>
@@ -27,13 +29,15 @@
     <table>
         <thead>
             <tr>
-                <th colspan=4>Programme</th>
+                <th colspan="{{ (session.future) ? 4 : 3 }}" class="center">Programme</th>
             </tr>
             <tr>
-                <th>Catégorie</th>
-                <th>Module</th>
-                <th>Nb. jours</th>
-                <th>Action</th>
+                <th class="left">Catégorie</th>
+                <th class="left">Module</th>
+                <th class="center">Nb. jours</th>
+                {% if session.future %}
+                <th class="center">Action</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -42,9 +46,9 @@
                 <td class="left">{{programme.module.categorie.libelle}}</td>
                 <td class="left">{{programme.module.libelle}}</td>
                 <td class="center">{{programme.duree}}</td>
-                <td class="center">
-                    <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
-                </td>
+                {% if session.future %}
+                <td class="center"><a class="button" href="#"><i class="fas fa-trash-alt"></i></a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -52,13 +56,15 @@
     <table>
         <thead>
             <tr>
-                <th colspan=4>Participants</th>
+                <th colspan="{{ (session.future) ? 4 : 3 }}" class="center">Participants</th>
             </tr>
             <tr>
-                <th>Nom &amp; prénom</th>
-                <th>Sexe</th>
-                <th>Date de Naissance</th>
-                <th>Action</th>
+                <th class="left">Nom &amp; prénom</th>
+                <th class="center">Sexe</th>
+                <th class="center">Date de Naissance</th>
+                {% if session.future %}
+                <th class="center">Action</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -67,9 +73,9 @@
                 <td class="left">{{stagiaire.nom | upper}} {{stagiaire.prenom | capitalize}}</td>
                 <td class="center">{{stagiaire.sexe}}</td>
                 <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
-                <td class="center">
-                    <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
-                </td>
+                {% if session.future %}
+                <td class="center"><a class="button" href="#"><i class="fas fa-trash-alt"></i></a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

@@ -94,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `programme` (
   KEY `IDX_3DDCB9FFAFC2B591` (`module_id`),
   CONSTRAINT `FK_3DDCB9FF613FECDF` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`),
   CONSTRAINT `FK_3DDCB9FFAFC2B591` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.programme : ~9 rows (environ)
+-- Listage des données de la table projgestsessform.programme : ~14 rows (environ)
 DELETE FROM `programme`;
 /*!40000 ALTER TABLE `programme` DISABLE KEYS */;
 INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
@@ -172,21 +172,22 @@ CREATE TABLE IF NOT EXISTS `stagiaire` (
   `telephone` varchar(23) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.stagiaire : ~8 rows (environ)
+-- Listage des données de la table projgestsessform.stagiaire : ~9 rows (environ)
 DELETE FROM `stagiaire`;
 /*!40000 ALTER TABLE `stagiaire` DISABLE KEYS */;
 INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `sexe`, `date_naissance`, `adresse`, `cpostal`, `ville`, `telephone`, `mail`) VALUES
-	(1, 'Dupont', 'Michel', 'M', '1999-01-16', '27 av. Rockfeller', '69008', 'Lyon', '(+33) 4 56 78 90 12', 'michel.dupont@gmail.com'),
-	(2, 'Dupont', 'Sandrine', 'F', '2000-02-14', '202 av. de Colmar', '67000', 'Strasbourg', '(+33) 3 45 67 89 01', 'sandrine.dupont@gmail.com'),
-	(3, 'Dupond', 'Paul', 'M', '1999-09-27', '12 rue Casimir Périer', '69002', 'Lyon', '(+33) 4 32 10 98 76', 'paul.dupond@hotmail.com'),
-	(4, 'Durand', 'Michel', 'M', '1999-07-21', '21 rue de Lyon', '68000', 'Mulhouse', '(+33) 3 21 09 87 65', 'michel.durand@hotmail.com'),
-	(5, 'Martin', 'Arthur', 'M', '2000-03-01', 'Allées des cuisines', '44730', 'St-Michel-Chef-Chef', '(+33) 2 34 56 78 90', 'arthur.martin@gmail.com'),
-	(6, 'Darc', 'Jeanne', 'F', '1999-12-31', 'Rue de l\'Annonciation', '88630', 'Domremy', '(+33) 3 57 91 24 68', 'jeanne.darc@hotmail.com'),
-	(7, 'Dubois', 'Aline', 'F', '2000-01-03', 'Allée de la forêt', '91665', 'La Ville-du-Bois', '(+33) 1 23 45 67 89', 'aline.dubois@gmail.com'),
-	(8, 'Lamère', 'Michèle', 'F', '1999-11-30', 'Avenue du Matou Matheux', '77370', 'La Chapelle-du-Mont-du-Chat', '(+33) 1 09 87 65 43', 'michele.lamere@gmail.com'),
-	(9, 'Moreau', 'Jean', 'M', '1999-06-02', '11 rue Sainte Barbe', '67260', 'Rimsdorf', '(+33) 6 78 90 12 34', 'jean.moreau@hotmail.com');
+	(1, 'Dupont', 'Michel', 'M', '1999-01-16', '27 av. Rockfeller', '69008', 'Lyon', '(+33) 4.56.78.90.12', 'michel.dupont@gmail.com'),
+	(2, 'Dupont', 'Sandrine', 'F', '2000-02-14', '202 av. de Colmar', '67000', 'Strasbourg', '(+33) 3.45.67.89.01', 'sandrine.dupont@gmail.com'),
+	(3, 'Dupond', 'Paul', 'M', '1999-09-27', '12 rue Casimir Périer', '69002', 'Lyon', '(+33) 4.32.10.98.76', 'paul.dupond@hotmail.com'),
+	(4, 'Durand', 'Michel', 'M', '1999-07-21', '21 rue de Lyon', '68000', 'Mulhouse', '(+33) 3.21.09.87.65', 'michel.durand@hotmail.com'),
+	(5, 'Martin', 'Arthur', 'M', '2000-03-01', 'Allées des cuisines', '44730', 'St-Michel-Chef-Chef', '(+33) 2.34.56.78.90', 'arthur.martin@gmail.com'),
+	(6, 'Darc', 'Jeanne', 'F', '1999-12-31', 'Rue de l\'Annonciation', '88630', 'Domremy', '(+33) 3.57.91.24.68', 'jeanne.darc@hotmail.com'),
+	(7, 'Dubois', 'Aline', 'F', '2000-01-03', 'Allée de la forêt', '91665', 'La Ville-du-Bois', '(+33) 1.23.45.67.89', 'aline.dubois@gmail.com'),
+	(8, 'Lamère', 'Michèle', 'F', '1999-11-30', 'Avenue du Matou Matheux', '77370', 'La Chapelle-du-Mont-du-Chat', '(+33) 1.09.87.65.43', 'michele.lamere@gmail.com'),
+	(9, 'Moreau', 'Jean', 'M', '1999-06-02', '11 rue Sainte Barbe', '67260', 'Rimsdorf', '(+33) 6.78.90.12.34', 'jean.moreau@hotmail.com'),
+	(10, 'Casaubon', 'Jean-Michel', 'M', '1965-06-02', '38 Grand\'Rue', '67430', 'Diemeringen', '(+33) 6.38.26.16.22', 'jm_casaubon@orange.fr');
 /*!40000 ALTER TABLE `stagiaire` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

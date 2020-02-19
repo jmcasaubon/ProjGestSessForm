@@ -36,7 +36,8 @@ class SessionType extends AbstractType
             ->add('programmes',     CollectionType::class, [
                 'entry_type' => ProgrammeType::class,
                 'allow_add' => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'by_reference' => false
             ])
             ->add('Enregistrer',    SubmitType::class, [
                 'attr' => [ 'class' => 'button' ]

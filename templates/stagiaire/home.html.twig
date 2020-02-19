@@ -5,21 +5,21 @@
     <table class="with-borders">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Sexe</th>
-                <th>Date de<br>Naissance</th>
-                <th>Nb. sessions<br>achevées</th>
-                <th>Nb. sessions<br>en cours</th>
-                <th>Nb. sessions<br>à venir</th>
-                <th>Détails</th>
+                <th class="left">Nom</th>
+                <th class="left">Prénom</th>
+                <th class="center">Sexe</th>
+                <th class="center">Date de<br>Naissance</th>
+                <th class="center">Nb. sessions<br>achevées</th>
+                <th class="center">Nb. sessions<br>en cours</th>
+                <th class="center">Nb. sessions<br>à venir</th>
+                <th class="center">Détails</th>
             </tr>
         </thead>
         <tbody>
             {% for stagiaire in stagiaires %}
             <tr>
                 <td class="left">{{stagiaire.nom | upper}}</td>
-                <td class="left">{{stagiaire.prenom | capitalize}}</td>
+                <td class="left">{{stagiaire.prenom | title}}</td>
                 <td class="center">{{stagiaire.sexe}}</td>
                 <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
                 <td class="center">{{stagiaire.nbSessionsAchevees}}</td>

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Entity\Programme;
+use App\Entity\Stagiaire;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -40,7 +42,7 @@ class Session
     private $nbPlaces;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Programme", mappedBy="session", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Programme", mappedBy="session", cascade={"persist"}, orphanRemoval=true)
      * @ORM\OrderBy({"module" = "ASC"})
      */
     private $programmes;
@@ -184,6 +186,21 @@ class Session
     public function getNbModules(): ?int
     {
         return count($this->programmes);
+    }
+
+    public function getFuture(): ?bool 
+    {
+        $now = new DateTime("NOW") ;
+
+        return ($now < $this->getDateDebut());
+    }
+
+
+    public function getVerrou(): ?bool 
+    {
+        $now = new DateTime("NOW") ;
+
+        return (($now >= $this->getDateDebut()) || ($this->getNbStagiaires() > 0));
     }
 
     public function getItself(): self

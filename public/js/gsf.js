@@ -11,20 +11,21 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
         // with a number that's unique to "programmes"
         // end name attribute looks like name="session[programmes][2]"
         newWidget = newWidget.replace(/__name__/g, counter)
-        newWidget = newWidget.replace(/input type="hidden"/, 'input type="hidden" value="'+session+'"')
+        newWidget = newWidget.replace(/><input type="hidden"/, ' class="borders"><input type="hidden" value="'+session+'"')
         // Increase the counter
         counter++
         // And store it, the length cannot be used if deleting widgets is allowed
         list.data('widget-counter', counter)
 
         // create a new list element and add it to the list
+
         var newElem = $(list.attr('data-widget-tags')).html(newWidget)
+        addDeleteLink($(newElem).find('div.borders'))
         newElem.appendTo(list)
     });
 
-    $('.remove-collection-widget').find('span').each(function() {
+    $('.remove-collection-widget').find('div.borders').each(function() {
         addDeleteLink($(this))
-        console.log ('added')
     })
 
     function addDeleteLink($moduleForm) {

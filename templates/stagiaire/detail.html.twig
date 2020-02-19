@@ -8,7 +8,7 @@
                 <td class="center">
                     <a class="button" href="{{path('update_stagiaire', {'id': stagiaire.id})}}"><i class="fas fa-pencil-alt"></i></a>
                 </td>
-                <th>{{stagiaire.nom | upper}} {{stagiaire.prenom | capitalize}}</th>
+                <th>{{stagiaire.nom | upper}} {{stagiaire.prenom | title}}</th>
             </tr>
            <tr>
                 <th class="right">Né{% if stagiaire.sexe == 'F' %}e{% endif %} le</th>
@@ -31,13 +31,13 @@
     <table>
         <thead>
             <tr>
-                <th colspan=4>Sessions suivies</th>
+                <th colspan="4" class="center">Sessions suivies</th>
             </tr>
             <tr>
-                <th>Intitulé</th>
-                <th>Dates</th>
-                <th>Nb. jours</th>
-                <th>Action</th>
+                <th class="left">Intitulé</th>
+                <th class="left">Dates</th>
+                <th class="center">Nb. jours</th>
+                <th class="center">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -47,7 +47,11 @@
                 <td class="left">du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}}</td>
                 <td class="center">{{session.duree}}</td>
                 <td class="center">
+                {% if session.future %}
                     <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
+                {% else %}
+                    <i class="fas fa-ban"></i>
+                {% endif %}
                 </td>
             </tr>
             {% endfor %}
