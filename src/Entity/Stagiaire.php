@@ -74,6 +74,11 @@ class Stagiaire
         $this->sessions = new ArrayCollection();
     }
 
+    public function __toString(): ?string
+    {
+        return $this->getNomPrenom();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -214,14 +219,18 @@ class Stagiaire
 
         return $this;
     }
-
+    
+    public function getNomPrenom(): ?string
+    {
+        return (strtoupper($this->getNom()).' '.ucwords($this->getPrenom()));
+    }
     public function getAge(): ?int
     {
         $now = new DateTime("NOW") ;
         return $now->diff($this->dateNaissance)->y ;
     }
 
-    public function getNbSessionsFutures(): int
+    public function getNbSessionsFutures(): ?int
     {
         $now = new DateTime("NOW") ;
         $nbsess = 0 ;
@@ -231,7 +240,7 @@ class Stagiaire
         return $nbsess ;
     }
 
-    public function getNbSessionsEnCours(): int
+    public function getNbSessionsEnCours(): ?int
     {
         $now = new DateTime("NOW") ;
         $nbsess = 0 ;
@@ -241,7 +250,7 @@ class Stagiaire
         return $nbsess ;
     }
 
-    public function getNbSessionsAchevees(): int
+    public function getNbSessionsAchevees(): ?int
     {
         $now = new DateTime("NOW") ;
         $nbsess = 0 ;

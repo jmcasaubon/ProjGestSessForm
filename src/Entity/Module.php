@@ -44,6 +44,11 @@ class Module
         $this->programmes = new ArrayCollection();
     }
 
+    public function __toString(): ?string
+    {
+        return $this->getCategorieLibelle();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,10 +124,5 @@ class Module
     public function getCategorieLibelle(): ?string
     {
         return $this->categorie->getLibelle()." - ".$this->libelle;
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->getCategorieLibelle();
     }
 }

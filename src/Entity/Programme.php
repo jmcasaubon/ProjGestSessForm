@@ -33,6 +33,11 @@ class Programme
      */
     private $module;
 
+    public function __toString(): ?string
+    {
+        return $this->getCategorieModule();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,10 +82,5 @@ class Programme
     public function getCategorieModule(): ?string
     {
         return $this->module->getCategorieLibelle();
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->getCategorieModule();
     }
 }

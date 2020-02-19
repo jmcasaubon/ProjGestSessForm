@@ -59,6 +59,11 @@ class Session
         $this->stagiaires = new ArrayCollection();
     }
 
+    public function __toString(): ?string
+    {
+        return $this->intitule;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -201,15 +206,5 @@ class Session
         $now = new DateTime("NOW") ;
 
         return (($now >= $this->getDateDebut()) || ($this->getNbStagiaires() > 0));
-    }
-
-    public function getItself(): self
-    {
-        return $this;
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->intitule;
     }
 }
