@@ -230,6 +230,11 @@ class Stagiaire
         return $now->diff($this->dateNaissance)->y ;
     }
 
+    public function getNbSessionsSuivies(): ?int
+    {
+        return count($this->sessions) ;
+    }
+
     public function getNbSessionsFutures(): ?int
     {
         $now = new DateTime("NOW") ;

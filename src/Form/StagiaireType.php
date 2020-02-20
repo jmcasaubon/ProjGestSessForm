@@ -54,7 +54,7 @@ class StagiaireType extends AbstractType
                 'label' => 'Adresse de messagerie'
             ])
             ->add('Enregistrer',    SubmitType::class, [
-                'attr' => [ 'class' => 'button' ]
+                'attr' => [ 'class' => 'button big' ]
             ])
         ;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use DateTime;
 use App\Entity\Session;
 use App\Form\ProgrammeType;
 use Symfony\Component\Form\AbstractType;
@@ -17,6 +18,8 @@ class SessionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $now = new DateTime ;
+        
         $builder
             ->add('intitule',       TextType::class, [
                 'label' => 'Intitulé de la session'
@@ -35,12 +38,13 @@ class SessionType extends AbstractType
             ])
             ->add('programmes',     CollectionType::class, [
                 'entry_type' => ProgrammeType::class,
+                'prototype' => true,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false
             ])
             ->add('Enregistrer',    SubmitType::class, [
-                'attr' => [ 'class' => 'button' ]
+                'attr' => [ 'class' => 'button big' ]
             ])
         ;
     }

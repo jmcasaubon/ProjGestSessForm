@@ -34,17 +34,22 @@
 
 .button {
     border: 1px solid #003f7f ;
-    background-color: #007fff;
-    color:white;
+    background-color: #7fcfff;
+    color: #003f7f;
     border-radius: .25em;
     padding: .5em;
     text-align: center;
     text-decoration: none;
     min-width: 39px;
 }
+.button.big {
+    background-color: #007fff;
+    color:#0f1f3f;
+    padding: .5em 2em;
+}
 .button:hover {
-    background-color: #7fcfff;
-    color:#303030;
+    background-color: #001f3f;
+    color:#7fcfff;
     text-decoration: none;
 }
 

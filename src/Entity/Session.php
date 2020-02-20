@@ -8,6 +8,7 @@ use App\Entity\Stagiaire;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SessionRepository")
@@ -33,6 +34,7 @@ class Session
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Expression("this.getDateDebut() < this.getDateFin()", message="La date d'achèvement doit être postérieure à la date de démarrage !")
      */
     private $dateFin;
 

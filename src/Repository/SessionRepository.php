@@ -23,7 +23,19 @@ class SessionRepository extends ServiceEntityRepository
     {
         $eMgr = $this->getEntityManager() ;
 
-        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Session s ORDER BY s.dateFin DESC, s.dateDebut DESC") ;
+        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Session s ORDER BY s.dateDebut ASC, s.dateFin DESC") ;
+
+        return $sql->execute() ;
+    }
+
+    public function getAllFuture()
+    {
+        $eMgr = $this->getEntityManager() ;
+
+        $sql = $eMgr->createQuery("SELECT s 
+                                   FROM App\Entity\Session s 
+                                   WHERE s.dateDebut > CURRENT_DATE()
+                                   ORDER BY s.dateDebut ASC") ;
 
         return $sql->execute() ;
     }

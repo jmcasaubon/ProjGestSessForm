@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -89,8 +90,13 @@ class StagiaireController extends AbstractController
      * @Route("/{id}", name="detail_stagiaire")
      */
     public function detail(Stagiaire $stagiaire): Response {
+        $sessions = $this->getDoctrine()
+                    ->getRepository(Session::class)
+                    ->getAllFuture() ;;
+        
         return $this->render('stagiaire/detail.html.twig', [
             'stagiaire' => $stagiaire,
+            'sessions' => $sessions
         ]);
     }
 }

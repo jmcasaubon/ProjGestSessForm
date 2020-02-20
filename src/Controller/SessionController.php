@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTime;
+use DateInterval;
 use App\Entity\Session;
 use App\Form\SessionType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +37,10 @@ class SessionController extends AbstractController
     public function add(Request $request, EntityManagerInterface $emi) 
     {
         $session = new Session();
+        $session->setDateDebut(new DateTime());
+        $session->getDateDebut()->add(new DateInterval("P1D"));
+        $session->setDateFin(new DateTime());
+        $session->getDateFin()->add(new DateInterval("P14D"));
 
         $form = $this->createForm(SessionType::class, $session);
 
