@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   PRIMARY KEY (`id`),
   KEY `IDX_C242628BCF5E72D` (`categorie_id`),
   CONSTRAINT `FK_C242628BCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projgestsessform.module : ~13 rows (environ)
 DELETE FROM `module`;
@@ -79,7 +79,9 @@ INSERT INTO `module` (`id`, `categorie_id`, `libelle`, `duree_suggeree`) VALUES
 	(10, 4, 'Publisher', 3),
 	(11, 2, 'Frameworks', 3),
 	(12, 5, 'Planification (Gantt/Pert...)', 2),
-	(13, 5, 'Méthodologies', 3);
+	(13, 5, 'Méthodologies', 3),
+	(14, 4, 'Spark', 3),
+	(15, 5, 'XD', 3);
 /*!40000 ALTER TABLE `module` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. programme
@@ -96,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `programme` (
   CONSTRAINT `FK_3DDCB9FFAFC2B591` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.programme : ~14 rows (environ)
+-- Listage des données de la table projgestsessform.programme : ~12 rows (environ)
 DELETE FROM `programme`;
 /*!40000 ALTER TABLE `programme` DISABLE KEYS */;
 INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
@@ -125,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.session : ~2 rows (environ)
+-- Listage des données de la table projgestsessform.session : ~3 rows (environ)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `intitule`, `date_debut`, `date_fin`, `nb_places`) VALUES
@@ -146,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `session_stagiaire` (
   CONSTRAINT `FK_C80B23BBBA93DD6` FOREIGN KEY (`stagiaire_id`) REFERENCES `stagiaire` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.session_stagiaire : ~5 rows (environ)
+-- Listage des données de la table projgestsessform.session_stagiaire : ~4 rows (environ)
 DELETE FROM `session_stagiaire`;
 /*!40000 ALTER TABLE `session_stagiaire` DISABLE KEYS */;
 INSERT INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES

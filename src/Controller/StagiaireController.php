@@ -86,13 +86,56 @@ class StagiaireController extends AbstractController
         return $this->redirectToRoute("home");
     }
 
+     /**
+     * @Route("/register/{id}", name="register_stagiaire")
+     */
+    public function register(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
+    {
+        $sessionId = $request->request->get('sessionId') ;
+
+        if ($sessionId != null) {
+            $session = $this->getDoctrine()
+                        ->getRepository(Session::class)
+                        ->find($sessionId) ;
+
+            $stagiaire->addSession($session) ;
+            $emi->flush();
+        }
+
+        return $this->redirectToRoute("detail_stagiaire", [
+            'id' => $stagiaire->getId() 
+        ]);
+    }
+
+     /**
+     * @Route("/cancel/{id}/{sessionId}", name="cancel_stagiaire")
+     */
+    public function cancel(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
+    {
+        $sessionId = $request->attributes->get('sessionId') ;
+
+        if ($sessionId != null) {
+            $session = $this->getDoctrine()
+                            ->getRepository(Session::class)
+                            ->find($sessionId) ;
+
+            $stagiaire->removeSession($session) ;
+            $emi->flush();
+        }
+
+        return $this->redirectToRoute("detail_stagiaire", [
+            'id' => $stagiaire->getId() 
+        ]);
+    }
+
     /**
      * @Route("/{id}", name="detail_stagiaire")
      */
     public function detail(Stagiaire $stagiaire): Response {
         $sessions = $this->getDoctrine()
                     ->getRepository(Session::class)
-                    ->getAllFuture() ;;
+                    ->getAllFuture() ;
+                    
         
         return $this->render('stagiaire/detail.html.twig', [
             'stagiaire' => $stagiaire,

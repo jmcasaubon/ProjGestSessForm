@@ -5,7 +5,10 @@ namespace App\Controller;
 use DateTime;
 use DateInterval;
 use App\Entity\Session;
+use App\Entity\Programme;
+use App\Entity\Stagiaire;
 use App\Form\SessionType;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,6 +103,48 @@ class SessionController extends AbstractController
         } else {
             return $this->redirectToRoute('home_session');
         }
+    }
+
+     /**
+     * @Route("/cancel/{id}/{stagiaireId}", name="cancel_session")
+     */
+    public function cancel(Session $session, Request $request, EntityManagerInterface $emi)
+    {
+        $stagiaireId = $request->attributes->get('stagiaireId') ;
+
+        if ($stagiaireId != null) {
+            $stagiaire = $this->getDoctrine()
+                            ->getRepository(Stagiaire::class)
+                            ->find($stagiaireId) ;
+
+            $session->removeStagiaire($stagiaire) ;
+            $emi->flush();
+        }
+
+        return $this->redirectToRoute("detail_session", [
+            'id' => $session->getId() 
+        ]);
+    }
+
+     /**
+     * @Route("/unset/{id}/{programmeId}", name="unset_programme")
+     */
+    public function unset(Session $session, Request $request, EntityManagerInterface $emi)
+    {
+        $programmeId = $request->attributes->get('programmeId') ;
+
+        if ($programmeId != null) {
+            $programme = $this->getDoctrine()
+                            ->getRepository(Programme::class)
+                            ->find($programmeId) ;
+
+            $session->removeProgramme($programme) ;
+            $emi->flush();
+        }
+
+        return $this->redirectToRoute("detail_session", [
+            'id' => $session->getId() 
+        ]);
     }
 
     /**

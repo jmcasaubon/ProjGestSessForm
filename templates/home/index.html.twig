@@ -1,5 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p class="center"><img src="{{asset('img/under-construction.png')}}" alt="Page d'accueil (en construction)"></p>
+    <h1 class="center">Informations générales</h1>
+    <!-- <p class="center"><img src="{{asset('img/formation.png')}}" alt="Page d'accueil (statistiques)"></p> -->
+    <table class="with-borders">
+        <thead>
+            <tr>
+                <th class="center">Nombre de stagiaires</th>
+                <th class="center">Nombre de sessions</th>
+                <th class="center">Nombre de catégories</th>
+                <th class="center">Nombre de modules</th>
+           </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="center">{{sessions | length}}</td>
+                <td class="center">{{stagiaires | length}}</td>
+                <td class="center">{{categories | length}}</td>
+                <td class="center">{{modules | length}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="with-borders">
+        <thead>
+            <tr>
+                <th class="center" colspan="3">Modules de formation disponibles</th>
+            </tr>
+            <tr>
+                <th class="center">Catégorie</th>
+                <th class="center">Module</th>
+                <th class="center">Durée suggérée</th>
+           </tr>
+        </thead>
+        <tbody>
+            {% set idCat = -1 %}
+            {% for categorie in categories %}
+            {% for module in categorie.modules %}
+            <tr>
+            {% if categorie.id != idCat %}
+                <td class="center" rowspan="{{categorie.modules | length}}">{{categorie.libelle}}</td>
+                {% set idCat = categorie.id %}
+            {% endif %}
+            <td class="left">{{module.libelle}}</td>
+            <td class="right">{{module.dureeSuggeree}} jours</td>
+        </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+        </table>
 {% endblock %}

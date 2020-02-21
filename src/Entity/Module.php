@@ -31,6 +31,7 @@ class Module
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="modules")
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\OrderBy({"libelle" = "ASC"})
      */
     private $categorie;
 

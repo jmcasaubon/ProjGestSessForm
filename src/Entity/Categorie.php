@@ -25,6 +25,7 @@ class Categorie
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Module", mappedBy="categorie")
+     * @ORM\OrderBy({"libelle" = "ASC"})
      */
     private $modules;
 

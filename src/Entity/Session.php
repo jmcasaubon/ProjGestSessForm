@@ -34,7 +34,6 @@ class Session
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Expression("this.getDateDebut() < this.getDateFin()", message="La date d'achèvement doit être postérieure à la date de démarrage !")
      */
     private $dateFin;
 
@@ -42,6 +41,8 @@ class Session
      * @ORM\Column(type="integer")
      */
     private $nbPlaces;
+
+    private $nbPlacesRestantes;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Programme", mappedBy="session", cascade={"persist"}, orphanRemoval=true)
@@ -59,6 +60,7 @@ class Session
     {
         $this->programmes = new ArrayCollection();
         $this->stagiaires = new ArrayCollection();
+        $this->nbPlacesRestantes = $this->nbPlaces;
     }
 
     public function __toString(): ?string
@@ -119,6 +121,18 @@ class Session
         return $this;
     }
 
+    public function getNbPlacesRestantes(): ?int
+    {
+        return $this->nbPlacesRestantes;
+    }
+
+    public function setNbPlacesRestantes($nbPlacesRestantes): self
+    {
+        $this->nbPlacesRestantes = $nbPlacesRestantes;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Programme[]
      */
@@ -162,6 +176,7 @@ class Session
     {
         if (!$this->stagiaires->contains($stagiaire)) {
             $this->stagiaires[] = $stagiaire;
+            $this->nbPlacesRestantes--;
         }
 
         return $this;
@@ -171,6 +186,7 @@ class Session
     {
         if ($this->stagiaires->contains($stagiaire)) {
             $this->stagiaires->removeElement($stagiaire);
+            $this->nbPlacesRestantes++;
         }
 
         return $this;
@@ -190,6 +206,12 @@ class Session
         return count($this->stagiaires);
     }
 
+    public function getNbPlacesLibres(): ?int
+    {
+        $this->setNbPlacesRestantes($this->getNbPlaces() - $this->getNbStagiaires());
+        return $this->getNbPlacesRestantes() ;
+    }
+
     public function getNbModules(): ?int
     {
         return count($this->programmes);
@@ -201,7 +223,6 @@ class Session
 
         return ($now < $this->getDateDebut());
     }
-
 
     public function getVerrou(): ?bool 
     {

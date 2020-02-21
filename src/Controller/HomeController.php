@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Module;
+use App\Entity\Session;
+use App\Entity\Categorie;
+use App\Entity\Stagiaire;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
@@ -12,6 +16,27 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->render('home/index.html.twig');
+        $sessions = $this->getDoctrine()
+                        ->getRepository(Session::class)
+                        ->findAll() ;
+
+        $stagiaires = $this->getDoctrine()
+                        ->getRepository(Stagiaire::class)
+                        ->findAll() ;
+
+        $categories = $this->getDoctrine()
+                        ->getRepository(Categorie::class)
+                        ->findAll() ;
+
+        $modules = $this->getDoctrine()
+                        ->getRepository(Module::class)
+                        ->findAll() ;
+
+        return $this->render('home/index.html.twig', [
+            'stagiaires' => $stagiaires,
+            'sessions' => $sessions,
+            'categories' => $categories,
+            'modules' => $modules
+        ]);
     }
 }

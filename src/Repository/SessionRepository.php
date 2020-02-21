@@ -40,6 +40,20 @@ class SessionRepository extends ServiceEntityRepository
         return $sql->execute() ;
     }
 
+    public function getAllFutureNotFull()
+    {
+        $eMgr = $this->getEntityManager() ;
+
+        return $this->createQueryBuilder('s')
+                        ->andWhere('s.dateDebut > CURRENT_DATE()')
+                        ->andWhere('s.nbPlaces > :nbInscrits')
+                        ->setParameter('nbInscrits', $this->s.nbPlacesRestantes)
+                        ->orderBy('s.dateDebut', 'ASC')
+                        ->getQuery()
+                        ->getResult()
+                        ;
+    }
+
     // /**
     //  * @return Session[] Returns an array of Session objects
     //  */

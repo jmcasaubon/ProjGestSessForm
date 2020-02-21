@@ -47,7 +47,7 @@
                 <td class="left">{{programme.module.libelle}}</td>
                 <td class="center">{{programme.duree}}</td>
                 {% if session.future %}
-                <td class="center"><a class="button" href="#"><i class="fas fa-trash-alt"></i></a></td>
+                <td class="center"><a class="button" href="{{ path('unset_programme', {'id': session.id, 'programmeId': programme.id})}}"><i class="fas fa-trash-alt"></i></a></td>
                 {% endif %}
             </tr>
             {% endfor %}
@@ -74,7 +74,7 @@
                 <td class="center">{{stagiaire.sexe}}</td>
                 <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
                 {% if session.future %}
-                <td class="center"><a class="button" href="#"><i class="fas fa-trash-alt"></i></a></td>
+                <td class="center"><a class="button" href="{{ path('cancel_session', {'id': session.id, 'stagiaireId': stagiaire.id})}}"><i class="fas fa-trash-alt"></i></a></td>
                 {% endif %}
             </tr>
             {% endfor %}

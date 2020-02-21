@@ -37,7 +37,7 @@
     background-color: #7fcfff;
     color: #003f7f;
     border-radius: .25em;
-    padding: .5em;
+    padding: .25em;
     text-align: center;
     text-decoration: none;
     min-width: 39px;
@@ -77,7 +77,7 @@ table th {
 }
 table th,tr,td {
     border: 1px solid #003f7f;
-    padding: .5em;
+    padding: .25em;
 }
 table td.nb-left {
     border-left: 0;

@@ -50,7 +50,7 @@
                     <td class="center">{{session.duree}}</td>
                     <td class="center">
                     {% if session.future %}
-                        <a class="button" href="#"><i class="fas fa-trash-alt"></i></a>
+                        <a class="button" href="{{ path('cancel_stagiaire', {'id': stagiaire.id, 'sessionId': session.id})}}"><i class="fas fa-trash-alt"></i></a>
                     {% else %}
                         <i class="fas fa-ban"></i>
                     {% endif %}
@@ -63,6 +63,8 @@
         <div class="alert alert-info center" role="alert">Ce stagiaire n'est inscrit à aucune session...</div>
     {% endif %}
 
+    <!-- {{ dump(sessions) }} -->
+
     {# À défaut d'arriver à faire au préalable une requête qui ne retourne que les sessions avec des places disponibles... #}
     {% set nbDispo = 0 %}
     {% for session in sessions %}
@@ -71,22 +73,23 @@
         {% endif %}
     {% endfor %}
 
+{{dump(sessions)}}
     {# S'il y a au moins une session future, avec une place disponible, on construit un mini-formulaire permettant de s'y inscrire #}
     {% if nbDispo > 0 %}
         <div>
             <h2 class="center">Inscription à une session</h2>
-            <form name="inscription" method="post">
+            <form name="inscription" method="post" action="{{ path('register_stagiaire', {'id': stagiaire.id})}}">
                 <div class="form-group row">
                     <label class="col-form-label col-sm-2 required">Session choisie :</label>
-                    <select class="col-sm-8">
+                    <select class="col-sm-8" name="sessionId">
                             <option value="">-- Choisissez une session disponible --</option>
                         {% for session in sessions %}
                             {% if session.nbPlaces > session.nbStagiaires %}
-                            <option value="{{session.id}}">{{session.intitule}}</option>
+                            <option value="{{session.id}}">{{session.intitule}} (du {{session.dateDebut|date("d/m/Y")}} au {{session.dateFin|date("d/m/Y")}})</option>
                             {% endif %}
                         {% endfor %}
                     </select>
-                    <div class="col-sm-2 block"><button class="button big" href="#">Inscription</button></div>
+                    <div class="col-sm-2 block"><button class="button big">Inscription</button></div>
                 </div>
             </form>
         </div>

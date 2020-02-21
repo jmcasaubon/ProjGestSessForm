@@ -21,8 +21,8 @@
                 <td class="center">{{session.dateDebut | date("d/m/Y")}}</td>
                 <td class="center">{{session.dateFin | date("d/m/Y")}}</td>
                 <td class="center">{{session.nbPlaces}}</td>
-                <td class="center">{{session.stagiaires | length}}</td>
-                <td class="center">{{session.nbPlaces - (session.stagiaires | length)}}</td>
+                <td class="center">{{session.nbStagiaires}}</td>
+                <td class="center">{{session.nbPlacesLibres}}</td>
                 <td class="center"><a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a></td>
             </tr>
             {% endfor %}
