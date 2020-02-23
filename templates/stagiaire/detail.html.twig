@@ -63,8 +63,6 @@
         <div class="alert alert-info center" role="alert">Ce stagiaire n'est inscrit à aucune session...</div>
     {% endif %}
 
-    <!-- {{ dump(sessions) }} -->
-
     {# À défaut d'arriver à faire au préalable une requête qui ne retourne que les sessions avec des places disponibles... #}
     {% set nbDispo = 0 %}
     {% for session in sessions %}
@@ -73,7 +71,6 @@
         {% endif %}
     {% endfor %}
 
-{{dump(sessions)}}
     {# S'il y a au moins une session future, avec une place disponible, on construit un mini-formulaire permettant de s'y inscrire #}
     {% if nbDispo > 0 %}
         <div>

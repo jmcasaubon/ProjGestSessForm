@@ -23,7 +23,9 @@ class SessionRepository extends ServiceEntityRepository
     {
         $eMgr = $this->getEntityManager() ;
 
-        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Session s ORDER BY s.dateDebut ASC, s.dateFin DESC") ;
+        $sql = $eMgr->createQuery("SELECT s 
+                                   FROM App\Entity\Session s 
+                                   ORDER BY s.dateDebut ASC, s.dateFin DESC") ;
 
         return $sql->execute() ;
     }
@@ -35,24 +37,24 @@ class SessionRepository extends ServiceEntityRepository
         $sql = $eMgr->createQuery("SELECT s 
                                    FROM App\Entity\Session s 
                                    WHERE s.dateDebut > CURRENT_DATE()
-                                   ORDER BY s.dateDebut ASC") ;
+                                   ORDER BY s.dateDebut ASC, s.dateFin DESC") ;
 
         return $sql->execute() ;
     }
 
-    public function getAllFutureNotFull()
-    {
-        $eMgr = $this->getEntityManager() ;
+    // public function getAllFutureNotFull()
+    // {
+    //     $eMgr = $this->getEntityManager() ;
 
-        return $this->createQueryBuilder('s')
-                        ->andWhere('s.dateDebut > CURRENT_DATE()')
-                        ->andWhere('s.nbPlaces > :nbInscrits')
-                        ->setParameter('nbInscrits', $this->s.nbPlacesRestantes)
-                        ->orderBy('s.dateDebut', 'ASC')
-                        ->getQuery()
-                        ->getResult()
-                        ;
-    }
+    //     return $this->createQueryBuilder('s')
+    //                     ->andWhere('s.dateDebut > CURRENT_DATE()')
+    //                     ->andWhere('s.nbPlaces > :nbInscrits')
+    //                     ->setParameter('nbInscrits', $this->s.nbPlacesRestantes)
+    //                     ->orderBy('s.dateDebut', 'ASC')
+    //                     ->getQuery()
+    //                     ->getResult()
+    //                     ;
+    // }
 
     // /**
     //  * @return Session[] Returns an array of Session objects
