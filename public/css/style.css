@@ -32,6 +32,15 @@
     padding: .5em;
 }
 
+.link-no-decor {
+    color: #007fff;
+    text-decoration: none;
+}
+.link-no-decor:hover {
+    color: #007fff;
+    text-decoration: none;
+}
+
 .button {
     border: 1px solid #003f7f ;
     background-color: #7fcfff;
