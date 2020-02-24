@@ -1,4 +1,9 @@
 <?php
+//
+// Entité "Session", fournissant la classe de base ainsi que ses getters/setters des attributs privés de la classe.
+//
+// Quelques méthodes personnalisées sont ajoutées en fin de fichier.
+//
 
 namespace App\Entity;
 
@@ -61,11 +66,6 @@ class Session
         $this->programmes = new ArrayCollection();
         $this->stagiaires = new ArrayCollection();
         $this->nbPlacesRestantes = $this->nbPlaces;
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->intitule;
     }
 
     public function getId(): ?int
@@ -190,6 +190,15 @@ class Session
         }
 
         return $this;
+    }
+
+    //
+    // Méthodes personnalisées
+    //
+
+    public function __toString(): ?string
+    {
+        return $this->intitule;
     }
 
     public function getDuree(): ?int

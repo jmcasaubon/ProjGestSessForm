@@ -1,8 +1,9 @@
 <?php
-
+//
+// Modèle de transformation d'un objet "Session" en son identifiant (unique), et reciproquement (méthode "reverse").
+//
 
 namespace App\Form\DataTransformer;
-
 
 use App\Entity\Session;
 use Doctrine\ORM\EntityManagerInterface;

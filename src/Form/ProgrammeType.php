@@ -1,4 +1,10 @@
 <?php
+//
+// Sous-formulaire "Programme" permettant d'ajouter / de modifier un module faisant partie d'une session (intégré au formulaire "Session", via un champ de type "Collection").
+//
+// L'identifiant de la session est passé au moyen du champ caché "session", et est obtenu à partir de l'objet "Session" par application du "ModelTransformer" associé.
+// La réciproque (obtention de l'objet "Session" à partir de son identifiant) est obtenu par la méthode "reverse" du "ModelTransformer". 
+//
 
 namespace App\Form;
 

@@ -1,4 +1,9 @@
 <?php
+//
+// Entité "Module", fournissant la classe de base ainsi que ses getters/setters des attributs privés de la classe.
+//
+// Quelques méthodes personnalisées sont ajoutées en fin de fichier.
+//
 
 namespace App\Entity;
 
@@ -43,11 +48,6 @@ class Module
     public function __construct()
     {
         $this->programmes = new ArrayCollection();
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->getCategorieLibelle();
     }
 
     public function getId(): ?int
@@ -120,6 +120,15 @@ class Module
         }
 
         return $this;
+    }
+
+    //
+    // Méthodes personnalisées
+    //
+
+    public function __toString(): ?string
+    {
+        return $this->getCategorieLibelle();
     }
 
     public function getCategorieLibelle(): ?string

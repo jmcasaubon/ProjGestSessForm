@@ -1,4 +1,10 @@
 <?php
+//
+// Contrôleur non utilisé en réalité, associé à l'entité "Programme". 
+//
+// L'entité "Programme" est créée uniquement pour gérer la relation "ManyToMany" entre les entités "Session" et "Module", 
+// relation nécessitant un attribut de caractérisation complémentaire "durée".
+//
 
 namespace App\Controller;
 

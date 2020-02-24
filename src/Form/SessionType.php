@@ -1,4 +1,11 @@
 <?php
+//
+// Formulaire permettant d'ajouter / de modifier une session, ainsi que son programme (<=> ses modules avec leur durée).
+//
+// Ce formulaire intègre le sous-formulaire "Programme", intégré à chaque fois que nécessaire via le script jQuery "gsf.js". 
+//
+// Ce formulaire et tous les sous-formulaires sont validés simultanément.
+//
 
 namespace App\Form;
 

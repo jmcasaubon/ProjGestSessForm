@@ -1,3 +1,5 @@
+// Scripts jQuery / JavaScript personnels
+
 $(document).ready(function() { // Une fois que le document (base.html.twig) HTML/CSS a bien été complètement chargé...
 
     // add-collection-widget.js : fonction permettant d'ajouter un nouveau bloc "programme" au sein d'une session (pour agrandir la collection)

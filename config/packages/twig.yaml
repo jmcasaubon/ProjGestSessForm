@@ -1,3 +1,4 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    # Les formulaires HTML seront automatiquement formatés avec le style Bootstrap 4
     form-themes: ['bootstrap_4_horizontal_layout.html.twig']

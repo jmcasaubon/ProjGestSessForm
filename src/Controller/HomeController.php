@@ -1,4 +1,7 @@
 <?php
+// 
+// Contrôleur indépendant (non lié à une entité), uniquement chargé de la route vers la page d'accueil.
+//
 
 namespace App\Controller;
 

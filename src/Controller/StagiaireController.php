@@ -1,4 +1,16 @@
 <?php
+//
+// Contrôleur associé à l'entité "Stagiaire".
+//
+// Gère les routes associées aux stagiaires, et permettant :
+//    - d'afficher la liste des stagiaires (home_stagiaire) ;
+//    - d'ajouter un nouveau stagiaire (add_stagiaire) ;
+//    - de modifier un stagiaire identifié (update_stagiaire) ;
+//    - de supprimer un stagiaire identifié (delete_stagiaire) => non utilisée actuellement ;
+//    - d'inscrire un stagiaire identifié à une session identifiée (register_stagiaire) ;
+//    - d'annuler l'inscription d'un stagiaire identifié à une session identifiée (cancel_stagiaire) ;
+//    - d'afficher les détails d'un stagiaire identifié (detail_stagiaire).
+//
 
 namespace App\Controller;
 

@@ -1,4 +1,9 @@
 <?php
+//
+// Entité "Categorie", fournissant la classe de base ainsi que ses getters/setters des attributs privés de la classe.
+//
+// Quelques méthodes personnalisées sont ajoutées en fin de fichier.
+//
 
 namespace App\Entity;
 
@@ -32,11 +37,6 @@ class Categorie
     public function __construct()
     {
         $this->modules = new ArrayCollection();
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->libelle;
     }
 
     public function getId(): ?int
@@ -85,5 +85,14 @@ class Categorie
         }
 
         return $this;
+    }
+
+    //
+    // Méthodes personnalisées
+    //
+
+    public function __toString(): ?string
+    {
+        return $this->libelle;
     }
 }

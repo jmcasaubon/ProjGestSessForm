@@ -1,4 +1,9 @@
 <?php
+// 
+// Interface BdD dédiée à l'entité "Stagiaire".
+//
+// Contient les méthodes de base d'extraction de la table associée stockée en BdD, ainsi que des méthodes personnalisées.
+//
 
 namespace App\Repository;
 

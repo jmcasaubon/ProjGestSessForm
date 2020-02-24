@@ -1,4 +1,16 @@
 <?php
+//
+// Contrôleur associé à l'entité "Session".
+//
+// Gère les routes associées aux sessions, et permettant :
+//    - d'afficher la liste des sessions (home_session) ;
+//    - d'ajouter une nouvelle session (add_session) ;
+//    - de modifier une session identifiée (update_session) ;
+//    - de supprimer une session identifiée (delete_session) => non utilisée actuellement ;
+//    - d'annuler l'inscription d'un stagiaire identifié à une session identifiée (cancel_session) ;
+//    - de supprimer un module identifié d'une session identifée (unset_programme) ;
+//    - d'afficher les détails d'une session identifiée (detail_session).
+//
 
 namespace App\Controller;
 

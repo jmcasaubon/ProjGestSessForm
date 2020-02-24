@@ -1,4 +1,7 @@
 <?php
+//
+// Forumlaire permettant d'ajouter / de modifier les informations personnelles d'un stagiaire.
+//
 
 namespace App\Form;
 

@@ -1,4 +1,9 @@
 <?php
+// 
+// Interface BdD dédiée à l'entité "Categorie" (non modifiée).
+//
+// Contient les méthodes de base d'extraction de la table associée stockée en BdD.
+//
 
 namespace App\Repository;
 

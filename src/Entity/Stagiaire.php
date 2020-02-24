@@ -1,4 +1,9 @@
 <?php
+//
+// Entité "Stagiaire", fournissant la classe de base ainsi que ses getters/setters des attributs privés de la classe.
+//
+// Quelques méthodes personnalisées sont ajoutées en fin de fichier.
+//
 
 namespace App\Entity;
 
@@ -72,11 +77,6 @@ class Stagiaire
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
-    }
-
-    public function __toString(): ?string
-    {
-        return $this->getNomPrenom();
     }
 
     public function getId(): ?int
@@ -220,6 +220,15 @@ class Stagiaire
         return $this;
     }
     
+    //
+    // Méthodes personnalisées
+    //
+
+    public function __toString(): ?string
+    {
+        return $this->getNomPrenom();
+    }
+
     public function getNomPrenom(): ?string
     {
         return (strtoupper($this->getNom()).' '.ucwords($this->getPrenom()));

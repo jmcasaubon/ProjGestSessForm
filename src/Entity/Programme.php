@@ -1,4 +1,10 @@
 <?php
+//
+// Entité "Programme", fournissant la classe de base ainsi que ses getters/setters des attributs privés de la classe.
+//
+// L'entité "Programme" est créée uniquement pour gérer la relation "ManyToMany" entre les entités "Session" et "Module", 
+// relation nécessitant un attribut de caractérisation complémentaire "durée".
+//
 
 namespace App\Entity;
 
