@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sessions{% endblock %}
+
+{% block body %}
+
+    <h1 class="uk-heading-bullet">Liste des sessions de formation <span class="uk-label uk-label-warning">{{ sessions | length }}</span></h1>
+    <a class="uk-button uk-button-dark" href="{{ path('add_session') }}">Ajouter</a>
+
+    <table class="uk-table uk-table-striped uk-table-small">
+        <thead>
+            <tr>
+                <th>INTITULE SESSION</th>
+                <th>DATE DEBUT</th>
+                <th>DATE FIN</th>
+                <th>NB PLACES</th>
+                <th>NB PLACES RESTANTES</th>
+                <th>MODIFIER</th>
+                <th>SUPPRIMER</th>
+            </tr>
+        </thead>
+        <tbody>   
+            {% for session in sessions %}
+                <tr>
+                    <td><a href="{{ path('session_show',{id:session.id}) }}">{{ session.intituleSession }}</a></td>
+                    <td>{{ session.dateDebut | format_datetime('full', 'none', locale='fr') }}</td>
+                    <td>{{ session.dateFin | format_datetime('full', 'none', locale='fr') }}</td>
+                    <td>{{ session.nbPlaces }}</td>
+                    <td>{% if session.nbPlaces - session.stagiaires | length == 0 %}
+                            <p class="uk-label uk-label-danger">SESSION COMPLETE</p>
+                        {% else %}
+                            {{ session.nbPlaces - session.stagiaires | length }}
+                        {% endif %}
+                    </td>
+                    <td><a class="uk-text-warning" href="{{ path('edit_session',{id:session.id}) }}" uk-icon="icon: pencil"></a></td>
+                    <td><a class="uk-text-danger" href="" uk-icon="icon: trash"></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

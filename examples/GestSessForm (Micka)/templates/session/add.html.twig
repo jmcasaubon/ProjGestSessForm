@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sessions{% endblock %}
+
+{% block body %}
+
+    {% if id == null %}
+        <h1 class="uk-heading-bullet">Ajouter une formation</h1>
+    {% else %}
+        <h1 class="uk-heading-bullet">Modifier une formation</h1>
+    {% endif %}
+    
+    {{ form(form) }}
+
+{% endblock %}

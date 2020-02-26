@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sessions{% endblock %}
+
+{% block body %}
+
+    <h1 class="uk-heading-bullet">{{ session.intituleSession }} <span><a class="uk-text-warning" href="{{ path('edit_session',{id:session.id}) }}" uk-icon="icon: pencil; ratio:1.5"></a></span></span></h1>
+
+    <h3 class="uk-text-bold">Infos pratiques</h3>
+
+    <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+        <span class="uk-text-success" uk-icon="calendar"></span> Date de début : {{ session.dateDebut |format_datetime('full', 'none', locale='fr') }} <br>
+        <span class="uk-text-danger" uk-icon="calendar"></span> Date de fin : {{ session.dateFin | format_datetime('full', 'none', locale='fr') }} <br>
+        <span uk-icon="users"></span> Nombre de places initial : {{ session.nbPlaces }}
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <h3 class="uk-text-bold">
+                Inscrit(e)s <span class="uk-label uk-label-warning">{{ session.stagiaires | length }}</span>
+                <span class="uk-label uk-label-success">Reste : {{ session.nbPlaces - session.stagiaires | length }}</span>
+            </h3>
+
+            {% if session.nbPlaces > session.stagiaires | length %}
+                <a class="uk-button uk-button-dark" href="#nonInscrits">INSCRIRE UN STAGIAIRE</a>
+            {% else %}
+                <span class="uk-button uk-label-warning">Nb maximum d'inscrit(e)s atteint</span>
+            {% endif %}
+
+            {% if session.stagiaires | length > 0 %}
+            
+            <table class="uk-table uk-table-striped uk-table-small">
+                <thead>
+                    <tr>
+                        <th>STAGIAIRE</th>
+                        <th>MAIL</th>
+                        <th>TEL</th>
+                        <th>DESINSCRIPTION</th>
+                    </tr>
+                </thead>
+                <tbody>   
+                    {% for stagiaire in session.stagiaires %}
+                        <tr>
+                            <td><a href="{{ path("stagiaire_show", {id:stagiaire.id}) }}">{{ stagiaire }}</a></td>
+                            <td>{{ stagiaire.mailStagiaire }}</td>
+                            <td>{{ stagiaire.telStagiaire }}</td>
+                            <td><a class="uk-text-danger" href="{{ path('session_remove_stagiaire', { id : session.id, id_stagiaire : stagiaire.id}) }}" uk-icon="icon: trash"></a></td>                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <br><p class="uk-label uk-label-danger">Pas d'inscrits</p>
+            {% endif %}
+
+            <h3 class="uk-text-bold">Non inscrit(e)s</h3>
+
+            <ul id="nonInscrits" uk-accordion>
+                <li>
+                    <a class="uk-accordion-title uk-label-gray" href="#">Voir les stagiaires non-inscrits</a>
+                    <div class="uk-accordion-content">
+
+                        <table class="uk-table uk-table-striped uk-table-small">
+                            <thead>
+                                <tr>
+                                    <th>STAGIAIRE</th>
+                                    <th>MAIL</th>
+                                    <th>TEL</th>
+                                    <th>INSCRIRE</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+
+                                {% for stagiaire in nonInscrits %}
+                                    <tr>
+                                        <td><a href="{{ path("stagiaire_show", {id:stagiaire.id}) }}">{{ stagiaire }}</a></td>
+                                        <td>{{ stagiaire.mailStagiaire }}</td>
+                                        <td>{{ stagiaire.telStagiaire }}</td>
+                                        {% if session.nbPlaces > session.stagiaires | length %}
+                                            <td><a class="uk-text-success" href="{{ path('session_add_stagiaire', { id : session.id, id_stagiaire : stagiaire.id}) }}" uk-icon="icon: check"></a></td>
+                                        {% else %}
+                                            <td><a class="uk-text-danger" href="" uk-icon="icon: ban"></a></td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="column">
+            <h3 class="uk-text-bold">Programme <span class="uk-label uk-label-warning">{{ session.sessionModules | length }}</span></h3>
+
+            <button class="uk-button uk-button-dark">AJOUTER DES MODULES</button>
+
+            <table class="uk-table uk-table-striped uk-table-small">
+                <thead>
+                    <tr>
+                        <th>MODULE</th>
+                        <th>MATIERE</th>
+                        <th>NB JOURS</th>
+                        <th>MODIFIER DUREE</th>
+                        <th>DEPROGRAMMER</th>
+                    </tr>
+                </thead>
+                <tbody>   
+                    {% for moduleSession in session.sessionModules %}
+                        <tr>
+                            <td>{{ moduleSession.module.nomModule }}</td>
+                            <td><a href="{{ path('matiere_show', {id:moduleSession.module.matiere.id}) }}">{{ moduleSession.module.matiere.nomMatiere }}</a></td>
+                            <td>{{ moduleSession.nbJours }}</td>
+                            <td><a class="uk-text-warning" href="#" uk-icon="icon: pencil"></a></td>
+                            <td><a class="uk-text-danger" href="#" uk-icon="icon: trash"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>                
+        </div>
+    </div>
+{% endblock %}

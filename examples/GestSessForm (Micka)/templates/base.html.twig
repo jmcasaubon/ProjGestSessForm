@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <!-- UIkit CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css" />
+            <!-- UIkit JS -->
+            <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+            <link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Nixie+One&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="{{ asset("css/style.css") }}">
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">                    
+                    <a class="uk-navbar-item uk-logo" href="{{ path("home") }}"><img src="{{ asset("img/logo.png") }}" alt="" class="logo"></a>
+                    <li><a href="{{ path("session") }}">SESSIONS DE FORMATION</a></li>
+                    <li><a href="{{ path("stagiaire") }}">STAGIAIRES</a></li>                    
+                    <li><a href="{{ path("matiere") }}">MATIERES</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        {# <div class="flash-notice">
+            {% block flash %}{% endblock %}
+        </div> #}
+
+        <div class="uk-container uk-container-expand">
+            {% block body %}{% endblock %}
+        </div>
+        <footer class="uk-text-center" uk-sticky="bottom: true">Session</footer>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
