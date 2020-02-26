@@ -34,6 +34,10 @@
     border-radius: .25em;
     padding: .5em;
 }
+.mtop {
+    margin-top: 2em;
+    margin-bottom: 0;
+}
 
 .link-no-decor {
     color: #007fff;

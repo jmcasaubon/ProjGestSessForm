@@ -14,6 +14,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
@@ -95,7 +96,31 @@ class StagiaireController extends AbstractController
         $emi->remove($stagiaire);
         $emi->flush();
 
-        return $this->redirectToRoute("home");
+        return $this->redirectToRoute("home_stagiaire");
+    }
+
+     /**
+     * @Route("/anon/{id}", name="anonymize_stagiaire")
+     */
+    public function anonymize(Stagiaire $stagiaire, EntityManagerInterface $emi)
+    {
+        $anonymous = $this->getDoctrine()
+                        ->getRepository(Stagiaire::class)
+                        ->getAnonymous() ;
+
+        $stagiaire->setNom("Anonymous_".count($anonymous));
+        $stagiaire->setPrenom("");
+        $stagiaire->setDateNaissance(new DateTime());
+        $stagiaire->setSexe("-");
+        $stagiaire->setAdresse("");
+        $stagiaire->setCpostal("");
+        $stagiaire->setVille("");
+        $stagiaire->setTelephone("");
+        $stagiaire->setMail("anonymous_".count($anonymous)."@nobody.fr");
+
+        $emi->flush();
+
+        return $this->redirectToRoute("home_stagiaire");
     }
 
      /**
@@ -144,10 +169,13 @@ class StagiaireController extends AbstractController
      * @Route("/{id}", name="detail_stagiaire")
      */
     public function detail(Stagiaire $stagiaire): Response {
-        $sessions = $this->getDoctrine()
-                    ->getRepository(Session::class)
-                    ->getAllFuture() ;
+        // $sessions = $this->getDoctrine()
+        //             ->getRepository(Session::class)
+        //             ->getAllFuture() ;
                     
+        $sessions = $this->getDoctrine()
+            ->getRepository(Stagiaire::class)
+            ->getSessionsNonParticipant($stagiaire->getId());
         
         return $this->render('stagiaire/detail.html.twig', [
             'stagiaire' => $stagiaire,

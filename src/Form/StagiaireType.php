@@ -29,7 +29,7 @@ class StagiaireType extends AbstractType
             ])
             ->add('sexe',           ChoiceType::class, [
                 'label' => 'Genre',
-                'choices' => [ 'Masculin' => 'M', 'Féminin' => 'F' ],
+                'choices' => [ 'Masculin' => 'M', 'Féminin' => 'F', 'Non spécifié' => '-' ],
                 'expanded' => true,
                 'multiple' => false
             ])

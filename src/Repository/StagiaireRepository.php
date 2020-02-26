@@ -8,6 +8,7 @@
 namespace App\Repository;
 
 use App\Entity\Stagiaire;
+use App\Entity\Session;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -28,9 +29,45 @@ class StagiaireRepository extends ServiceEntityRepository
     {
         $eMgr = $this->getEntityManager() ;
 
-        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Stagiaire s ORDER BY s.nom ASC, s.prenom ASC") ;
+        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Stagiaire s WHERE s.nom NOT LIKE '_Anonymous_%' ORDER BY s.nom ASC, s.prenom ASC") ;
 
         return $sql->execute() ;
+    }
+
+    public function getAnonymous()
+    {
+        $eMgr = $this->getEntityManager() ;
+
+        $sql = $eMgr->createQuery("SELECT s FROM App\Entity\Stagiaire s WHERE s.nom LIKE '_Anonymous_%' ORDER BY s.nom ASC") ;
+
+        return $sql->execute() ;
+
+    }
+
+    public function getSessionsNonParticipant($idStagiaire){
+
+        $eMgr = $this->getEntityManager();
+
+        // 1ère partie de la requête : on récupère la liste des sessions auxquelles le stagiaire participe déjà
+        $qb1 = $eMgr->createQueryBuilder();
+        $qb1->select('s')
+            ->from('App\Entity\Session','s')
+            ->leftJoin('s.stagiaires','st')
+            ->where('st.id = :id');
+            
+        // 2ème partie de la requête : on récupère les sessions futures qui ne sont pas dans l'ensemble obtenu par la 1ère partie
+        $qb2 = $eMgr->createQueryBuilder();
+        $qb2->select('se')
+            ->from('App\Entity\Session','se')
+            ->where('se.dateDebut > CURRENT_DATE()')
+            ->andWhere($qb2->expr()->notIn('se.id', $qb1->getDQL()))
+            ->setParameter('id',$idStagiaire)
+            ->addOrderBy('se.dateDebut', 'ASC')
+            ->addOrderBy('se.dateFin', 'DESC');
+            
+        // On exécute finalement la requête complète, et on retourne son résultat
+        $sql = $qb2->getQuery();
+        return $sql->getResult();
     }
 
     // /**

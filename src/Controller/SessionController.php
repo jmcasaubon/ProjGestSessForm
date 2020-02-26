@@ -117,7 +117,28 @@ class SessionController extends AbstractController
         }
     }
 
-     /**
+    /**
+     * @Route("/register/{id}", name="register_session")
+     */
+    public function register(Session $session, Request $request, EntityManagerInterface $emi)
+    {
+        $stagiaireId = $request->request->get('stagiaireId') ;
+
+        if ($stagiaireId != null) {
+            $stagiaire = $this->getDoctrine()
+                            ->getRepository(Stagiaire::class)
+                            ->find($stagiaireId) ;
+
+            $session->addStagiaire($stagiaire) ;
+            $emi->flush();
+        }
+
+        return $this->redirectToRoute("detail_session", [
+            'id' => $session->getId() 
+        ]);
+    }
+
+    /**
      * @Route("/cancel/{id}/{stagiaireId}", name="cancel_session")
      */
     public function cancel(Session $session, Request $request, EntityManagerInterface $emi)
@@ -163,8 +184,13 @@ class SessionController extends AbstractController
      * @Route("/{id}", name="detail_session")
      */
     public function detail(Session $session): Response {
+        $stagiaires = $this->getDoctrine()
+            ->getRepository(Session::class)
+            ->getStagiairesNonInscrits($session->getId());
+        
         return $this->render('session/detail.html.twig', [
             'session' => $session,
+            'stagiaires' => $stagiaires
         ]);
     }
 }

@@ -82,4 +82,31 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {# S'il y a au moins un stagiaire disponible, on construit un mini-formulaire permettant d'ajouter des participants à cette session #}
+    {% if session.future %}
+        {% if (stagiaires | length) > 0 %}
+        <div>
+            <h2 class="center">Ajout de participants à cette session</h2>
+            <form name="participation" method="post" action="{{ path('register_session', {'id': session.id})}}">
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-2 required">Stagiaire à inscrire :</label>
+                    <select class="col-sm-8" name="stagiaireId">
+                            <option value="">-- Choisissez un stagiaire disponible --</option>
+                        {% for stagiaire in stagiaires %}
+                            {# {% if session.nbPlaces > session.nbStagiaires %} #}
+                            <option value="{{stagiaire.id}}">{{stagiaire.nomPrenom}} ({{stagiaire.age}} ans)</option>
+                            {# {% endif %} #}
+                        {% endfor %}
+                    </select>
+                    <div class="col-sm-2 block"><button class="button big">Inscription</button></div>
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div class="alert alert-danger center" role="alert">Aucun stagiaire disponible !</div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-danger center" role="alert">Cette session ne peut plus être modifiée !</div>
+    {% endif %}
 {% endblock %}

@@ -3,6 +3,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <p class="right mtop"><a class="button big" href="{{path('add_session')}}">Ajouter une session</a></p>
     <h1 class="center">Liste des sessions</h1>
     <table class="with-borders">
         <thead>
@@ -10,6 +11,8 @@
                 <th class="left">Intitulé session</th>
                 <th class="center">Date de<br>début</th>
                 <th class="center">Date de<br>fin</th>
+                <th class="center">Nb. jours<br>ouvrés</th>
+                <th class="center">Nb. jours<br>programmés</th>
                 <th class="center">Nb. Places<br>théoriques</th>
                 <th class="center">Nb. Places<br>réservées</th>
                 <th class="center">Nb. Places<br>disponibles</th>
@@ -22,6 +25,8 @@
                 <td class="left">{{session.intitule}}</td>
                 <td class="center">{{session.dateDebut | date("d/m/Y")}}</td>
                 <td class="center">{{session.dateFin | date("d/m/Y")}}</td>
+                <td class="center">...</td>
+                <td class="center">{{session.duree}}</td>
                 <td class="center">{{session.nbPlaces}}</td>
                 <td class="center">{{session.nbStagiaires}}</td>
                 <td class="center">{{session.nbPlacesLibres}}</td>
@@ -30,5 +35,4 @@
             {% endfor %}
         </tbody>
     </table>
-    <p class="center"><a class="button big" href="{{path('add_session')}}">Ajouter une session</a></p>
 {% endblock %}

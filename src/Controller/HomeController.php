@@ -21,11 +21,11 @@ class HomeController extends AbstractController
     {
         $sessions = $this->getDoctrine()
                         ->getRepository(Session::class)
-                        ->findAll() ;
+                        ->getAll() ;
 
         $stagiaires = $this->getDoctrine()
                         ->getRepository(Stagiaire::class)
-                        ->findAll() ;
+                        ->getAll() ;
 
         $categories = $this->getDoctrine()
                         ->getRepository(Categorie::class)

@@ -8,6 +8,7 @@
 namespace App\Repository;
 
 use App\Entity\Session;
+use App\Entity\Stagiaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -33,6 +34,31 @@ class SessionRepository extends ServiceEntityRepository
                                    ORDER BY s.dateDebut ASC, s.dateFin DESC") ;
 
         return $sql->execute() ;
+    }
+
+    public function getStagiairesNonInscrits($idSession){
+
+        $eMgr = $this->getEntityManager();
+
+        // 1ère partie de la requête : on récupère la liste des stagiaires inscrits à la session
+        $qb1 = $eMgr->createQueryBuilder();
+        $qb1->select('s')
+            ->from('App\Entity\Stagiaire','s')
+            ->leftJoin('s.sessions','se')
+            ->where('se.id = :id');
+            
+        // 2ème partie de la requête : on récupère les stagiaires qui ne sont pas dans l'ensemble obtenu par la 1ère partie
+        $qb2 = $eMgr->createQueryBuilder();
+        $qb2->select('st')
+            ->from('App\Entity\Stagiaire','st')
+            ->where($qb2->expr()->notIn('st.id', $qb1->getDQL()))
+            ->setParameter('id',$idSession)
+            ->addOrderBy('st.nom', 'ASC')
+            ->addOrderBy('st.prenom', 'ASC');
+            
+        // On exécute finalement la requête complète, et on retourne son résultat
+        $sql = $qb2->getQuery();
+        return $sql->getResult();
     }
 
     public function getAllFuture()
