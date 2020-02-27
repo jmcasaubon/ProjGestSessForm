@@ -51,19 +51,21 @@ class StagiaireRepository extends ServiceEntityRepository
         // 1ère partie de la requête : on récupère la liste des sessions auxquelles le stagiaire participe déjà
         $qb1 = $eMgr->createQueryBuilder();
         $qb1->select('s')
-            ->from('App\Entity\Session','s')
-            ->leftJoin('s.stagiaires','st')
-            ->where('st.id = :id');
+            ->from('App\Entity\Session', 's')
+            ->leftJoin('s.stagiaires', 'st')
+            ->where('st.id = :id')
+            ;
             
         // 2ème partie de la requête : on récupère les sessions futures qui ne sont pas dans l'ensemble obtenu par la 1ère partie
         $qb2 = $eMgr->createQueryBuilder();
         $qb2->select('se')
-            ->from('App\Entity\Session','se')
+            ->from('App\Entity\Session', 'se')
             ->where('se.dateDebut > CURRENT_DATE()')
             ->andWhere($qb2->expr()->notIn('se.id', $qb1->getDQL()))
-            ->setParameter('id',$idStagiaire)
+            ->setParameter('id', $idStagiaire)
             ->addOrderBy('se.dateDebut', 'ASC')
-            ->addOrderBy('se.dateFin', 'DESC');
+            ->addOrderBy('se.dateFin', 'DESC')
+            ;
             
         // On exécute finalement la requête complète, et on retourne son résultat
         $sql = $qb2->getQuery();

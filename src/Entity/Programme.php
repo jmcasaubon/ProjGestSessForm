@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProgrammeRepository")
+ * @ORM\Table(name="programme",
+ *            uniqueConstraints={
+ *                               @ORM\UniqueConstraint(name="programme_unique", columns={"module_id", "session_id"})
+ *                              }
+ *           )
  */
 class Programme
 {

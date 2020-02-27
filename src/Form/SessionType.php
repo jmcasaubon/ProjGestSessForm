@@ -33,11 +33,11 @@ class SessionType extends AbstractType
             ])
             ->add('dateDebut',      DateType::class, [
                 'label' => 'Date de démarrage',
-                'format' => 'd/M/y'
+                'widget' => 'single_text'
             ])
             ->add('dateFin',        DateType::class, [
                 'label' => 'Date d\'achèvement',
-                'format' => 'd/M/y'
+                'widget' => 'single_text'
             ])
             ->add('nbPlaces',       IntegerType::class, [
                 'label' => 'Nombre de places',

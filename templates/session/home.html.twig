@@ -30,7 +30,12 @@
                 <td class="center">{{session.nbPlaces}}</td>
                 <td class="center">{{session.nbStagiaires}}</td>
                 <td class="center">{{session.nbPlacesLibres}}</td>
-                <td class="center"><a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a></td>
+                <td class="center">
+                    <a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a>
+                    {% if session.nbStagiaires == 0 %}
+                    <a class="button" href="{{path('delete_session', {'id': session.id})}}"><i class="fas fa-trash"></i></a>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

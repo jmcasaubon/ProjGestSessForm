@@ -25,6 +25,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -62,10 +63,19 @@ class SessionController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $emi->persist($session);
-            $emi->flush();
+            if ($session->getDateFin() > $session->getDateDebut()) {
+                try {
+                    $emi->persist($session);
+                    $emi->flush();
 
-            return $this->redirectToRoute('home_session');
+                    return $this->redirectToRoute('home_session');
+                }
+                catch (UniqueConstraintViolationException $e) {
+                    $this->addFlash('danger', "Un même module ne peut pas apparaître deux fois au sein d'un programme !");
+                }
+            } else {
+                $this->addFlash('danger', "La date d'achèvement doit être postérieure à la date de démarrage !");
+            }
         }
         
         return $this->render('session/form.html.twig', [
@@ -86,10 +96,19 @@ class SessionController extends AbstractController
             $form->handleRequest($request);
 
             if($form->isSubmitted() && $form->isValid()){
-                $emi->persist($session);
-                $emi->flush();
-
-                return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
+                if ($session->getDateFin() > $session->getDateDebut()) {
+                    try {
+                            $emi->persist($session);
+                            $emi->flush();
+        
+                            return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
+                    }
+                    catch (UniqueConstraintViolationException $e) {
+                        $this->addFlash('danger', "Un même module ne peut pas apparaître deux fois au sein d'un programme !");
+                    }
+                } else {
+                    $this->addFlash('danger', "La date d'achèvement doit être postérieure à la date de démarrage !");
+                }
             }
             
             return $this->render('session/form.html.twig', [
@@ -107,14 +126,14 @@ class SessionController extends AbstractController
      */
     public function delete(Session $session, EntityManagerInterface $emi)
     {
-        if ($session->getFuture()) {
-                $emi->remove($session);
+        if ($session->getNbStagiaires() == 0) {
+            $emi->remove($session);
             $emi->flush();
-
-            return $this->redirectToRoute("home");
         } else {
-            return $this->redirectToRoute('home_session');
+            $this->addFlash('danger', "Seule une session sans participants peut être supprimée !");
         }
+
+        return $this->redirectToRoute('home_session');
     }
 
     /**

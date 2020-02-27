@@ -15,7 +15,7 @@ CREATE TABLE gsf_stagiaire(
         adresse      Varchar (255) COMMENT "n° et voie, complément d'adresse..."  ,
         cpostal      Varchar (15) COMMENT "code postal"  ,
         ville        Varchar (63) COMMENT "lieu de résidence"  ,
-        telephone    Varchar (15) COMMENT "téléphone (fixe ou mobile)"  ,
+        telephone    Varchar (23) COMMENT "téléphone (fixe ou mobile)"  ,
         mail         Varchar (255) NOT NULL COMMENT "adresse de messagerie" 
 	,CONSTRAINT gsf_stagiaire_AK UNIQUE (mail)
 	,CONSTRAINT gsf_stagiaire_PK PRIMARY KEY (id_stagiaire)

@@ -36,25 +36,53 @@ class SessionRepository extends ServiceEntityRepository
         return $sql->execute() ;
     }
 
-    public function getStagiairesNonInscrits($idSession){
-
+    public function getStagiairesNonInscrits($idSession)
+    {
         $eMgr = $this->getEntityManager();
 
         // 1ère partie de la requête : on récupère la liste des stagiaires inscrits à la session
         $qb1 = $eMgr->createQueryBuilder();
         $qb1->select('s')
-            ->from('App\Entity\Stagiaire','s')
-            ->leftJoin('s.sessions','se')
-            ->where('se.id = :id');
+            ->from('App\Entity\Stagiaire', 's')
+            ->leftJoin('s.sessions', 'se')
+            ->where('se.id = :id')
+            ;
             
         // 2ème partie de la requête : on récupère les stagiaires qui ne sont pas dans l'ensemble obtenu par la 1ère partie
         $qb2 = $eMgr->createQueryBuilder();
         $qb2->select('st')
-            ->from('App\Entity\Stagiaire','st')
+            ->from('App\Entity\Stagiaire', 'st')
             ->where($qb2->expr()->notIn('st.id', $qb1->getDQL()))
-            ->setParameter('id',$idSession)
+            ->setParameter('id', $idSession)
             ->addOrderBy('st.nom', 'ASC')
-            ->addOrderBy('st.prenom', 'ASC');
+            ->addOrderBy('st.prenom', 'ASC')
+            ;
+            
+        // On exécute finalement la requête complète, et on retourne son résultat
+        $sql = $qb2->getQuery();
+        return $sql->getResult();
+    }
+
+    public function getModulesNonPresents($idSession)
+    {
+        $eMgr = $this->getEntityManager();
+
+        // 1ère partie de la requête : on récupère la liste des modules déjà présents dans le programme de la session
+        $qb1 = $eMgr->createQueryBuilder();
+        $qb1->select('p.module')
+            ->from('App\Entity\Programme', 'p')
+            ->leftJoin('p.session', 's')
+            ->where('s.id = :id')
+            ;
+            
+        // 2ème partie de la requête : on récupère les modules qui ne sont pas dans l'ensemble obtenu par la 1ère partie
+        $qb2 = $eMgr->createQueryBuilder();
+        $qb2->select('m')
+            ->from('App\Entity\Module', 'm')
+            ->where($qb2->expr()->notIn('m.id', $qb1->getDQL()))
+            ->setParameter('id', $idSession)
+            ->OrderBy('m.categorieLibelle', 'ASC')
+            ;
             
         // On exécute finalement la requête complète, et on retourne son résultat
         $sql = $qb2->getQuery();

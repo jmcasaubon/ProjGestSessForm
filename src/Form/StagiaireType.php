@@ -35,7 +35,7 @@ class StagiaireType extends AbstractType
             ])
             ->add('dateNaissance',  BirthdayType::class, [
                 'label' => 'Date de Naissance',
-                'format' => 'd/M/y'
+                'widget' => 'single_text'
             ])
             ->add('adresse',        TextType::class, [
                 'label' => 'Adresse (N°, voie et complément)',

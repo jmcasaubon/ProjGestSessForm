@@ -22,6 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -55,10 +56,15 @@ class StagiaireController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $emi->persist($stagiaire);
-            $emi->flush();
+            try {
+                $emi->persist($stagiaire);
+                $emi->flush();
 
-            return $this->redirectToRoute('home_stagiaire');
+                return $this->redirectToRoute('home_stagiaire');
+            }
+            catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('danger', "Cette adresse de mesagerie est déjà utilisée !");
+            }
         }
         
         return $this->render('stagiaire/form.html.twig', [
@@ -77,18 +83,23 @@ class StagiaireController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $emi->flush();
+            try {
+                $emi->flush();
 
-            return $this->redirectToRoute('detail_stagiaire', ["id" => $stagiaire->getId()]);
+                return $this->redirectToRoute('detail_stagiaire', ["id" => $stagiaire->getId()]);
+            }
+            catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('danger', "Cette adresse de messagerie est déjà utilisée !");
+            }
         }
-        
+            
         return $this->render('stagiaire/form.html.twig', [
             "form" => $form->createView(),
             "title" => "Modifier"
         ]);
     }
 
-     /**
+    /**
      * @Route("/delete/{id}", name="delete_stagiaire")
      */
     public function delete(Stagiaire $stagiaire, EntityManagerInterface $emi)
@@ -99,7 +110,7 @@ class StagiaireController extends AbstractController
         return $this->redirectToRoute("home_stagiaire");
     }
 
-     /**
+    /**
      * @Route("/anon/{id}", name="anonymize_stagiaire")
      */
     public function anonymize(Stagiaire $stagiaire, EntityManagerInterface $emi)
@@ -107,8 +118,9 @@ class StagiaireController extends AbstractController
         $anonymous = $this->getDoctrine()
                         ->getRepository(Stagiaire::class)
                         ->getAnonymous() ;
+        $anonId = sprintf("_anonymous_%04d", count($anonymous));
 
-        $stagiaire->setNom("Anonymous_".count($anonymous));
+        $stagiaire->setNom($anonId);
         $stagiaire->setPrenom("");
         $stagiaire->setDateNaissance(new DateTime());
         $stagiaire->setSexe("-");
@@ -116,14 +128,14 @@ class StagiaireController extends AbstractController
         $stagiaire->setCpostal("");
         $stagiaire->setVille("");
         $stagiaire->setTelephone("");
-        $stagiaire->setMail("anonymous_".count($anonymous)."@nobody.fr");
+        $stagiaire->setMail($anonId."@nobody.fr");
 
         $emi->flush();
 
         return $this->redirectToRoute("home_stagiaire");
     }
 
-     /**
+    /**
      * @Route("/register/{id}", name="register_stagiaire")
      */
     public function register(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
@@ -144,7 +156,7 @@ class StagiaireController extends AbstractController
         ]);
     }
 
-     /**
+    /**
      * @Route("/cancel/{id}/{sessionId}", name="cancel_stagiaire")
      */
     public function cancel(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
