@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   CONSTRAINT `FK_C242628BCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.module : ~13 rows (environ)
+-- Listage des données de la table projgestsessform.module : ~15 rows (environ)
 DELETE FROM `module`;
 /*!40000 ALTER TABLE `module` DISABLE KEYS */;
 INSERT INTO `module` (`id`, `categorie_id`, `libelle`, `duree_suggeree`) VALUES
@@ -92,13 +92,14 @@ CREATE TABLE IF NOT EXISTS `programme` (
   `module_id` int(11) NOT NULL,
   `duree` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `programme_unique` (`module_id`,`session_id`),
   KEY `IDX_3DDCB9FF613FECDF` (`session_id`),
   KEY `IDX_3DDCB9FFAFC2B591` (`module_id`),
   CONSTRAINT `FK_3DDCB9FF613FECDF` FOREIGN KEY (`session_id`) REFERENCES `session` (`id`),
   CONSTRAINT `FK_3DDCB9FFAFC2B591` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.programme : ~12 rows (environ)
+-- Listage des données de la table projgestsessform.programme : ~23 rows (environ)
 DELETE FROM `programme`;
 /*!40000 ALTER TABLE `programme` DISABLE KEYS */;
 INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
@@ -113,7 +114,18 @@ INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
 	(9, 2, 11, 20),
 	(10, 3, 1, 3),
 	(11, 3, 2, 3),
-	(12, 3, 10, 4);
+	(12, 3, 10, 4),
+	(13, 5, 1, 6),
+	(15, 5, 10, 5),
+	(16, 5, 3, 2),
+	(17, 6, 8, 5),
+	(18, 6, 9, 5),
+	(19, 6, 15, 5),
+	(20, 4, 4, 4),
+	(21, 4, 6, 4),
+	(22, 4, 11, 2),
+	(23, 7, 10, 5),
+	(24, 7, 14, 5);
 /*!40000 ALTER TABLE `programme` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. session
@@ -125,15 +137,19 @@ CREATE TABLE IF NOT EXISTS `session` (
   `date_fin` date NOT NULL,
   `nb_places` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.session : ~3 rows (environ)
+-- Listage des données de la table projgestsessform.session : ~7 rows (environ)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `intitule`, `date_debut`, `date_fin`, `nb_places`) VALUES
 	(1, 'Initiation bureautique', '2020-03-02', '2020-03-13', 12),
 	(2, 'Développeur Web', '2020-02-17', '2020-06-12', 10),
-	(3, 'Bureautique avancée', '2020-03-16', '2020-03-27', 10);
+	(3, 'Bureautique avancée', '2020-03-16', '2020-03-27', 12),
+	(4, 'Intégrateur Web', '2020-03-02', '2020-03-13', 10),
+	(5, 'Session de test', '2020-02-27', '2020-03-11', 2),
+	(6, 'Infographie', '2020-01-06', '2020-01-25', 8),
+	(7, 'Une session à supprimer', '2020-02-29', '2020-03-13', 2);
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. session_stagiaire
@@ -148,16 +164,23 @@ CREATE TABLE IF NOT EXISTS `session_stagiaire` (
   CONSTRAINT `FK_C80B23BBBA93DD6` FOREIGN KEY (`stagiaire_id`) REFERENCES `stagiaire` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.session_stagiaire : ~4 rows (environ)
+-- Listage des données de la table projgestsessform.session_stagiaire : ~12 rows (environ)
 DELETE FROM `session_stagiaire`;
 /*!40000 ALTER TABLE `session_stagiaire` DISABLE KEYS */;
 INSERT INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES
 	(1, 6),
-	(1, 8),
+	(1, 10),
 	(2, 4),
 	(2, 5),
 	(2, 9),
-	(3, 6);
+	(3, 6),
+	(4, 2),
+	(4, 7),
+	(5, 8),
+	(5, 10),
+	(6, 2),
+	(6, 8),
+	(6, 11);
 /*!40000 ALTER TABLE `session_stagiaire` ENABLE KEYS */;
 
 -- Listage de la structure de la table projgestsessform. stagiaire
@@ -173,10 +196,11 @@ CREATE TABLE IF NOT EXISTS `stagiaire` (
   `ville` varchar(63) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telephone` varchar(23) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_4F62F7315126AC48` (`mail`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.stagiaire : ~9 rows (environ)
+-- Listage des données de la table projgestsessform.stagiaire : ~11 rows (environ)
 DELETE FROM `stagiaire`;
 /*!40000 ALTER TABLE `stagiaire` DISABLE KEYS */;
 INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `sexe`, `date_naissance`, `adresse`, `cpostal`, `ville`, `telephone`, `mail`) VALUES
@@ -189,7 +213,8 @@ INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `sexe`, `date_naissance`, `adres
 	(7, 'Dubois', 'Aline', 'F', '2000-01-03', 'Allée de la forêt', '91665', 'La Ville-du-Bois', '(+33) 1.23.45.67.89', 'aline.dubois@gmail.com'),
 	(8, 'Lamère', 'Michèle', 'F', '1999-11-30', 'Avenue du Matou Matheux', '77370', 'La Chapelle-du-Mont-du-Chat', '(+33) 1.09.87.65.43', 'michele.lamere@gmail.com'),
 	(9, 'Moreau', 'Jean', 'M', '1999-06-02', '11 rue Sainte Barbe', '67260', 'Rimsdorf', '(+33) 6.78.90.12.34', 'jean.moreau@hotmail.com'),
-	(10, 'Casaubon', 'Jean-Michel', 'M', '1965-06-02', '38 Grand\'Rue', '67430', 'Diemeringen', '(+33) 6.38.26.16.22', 'jm_casaubon@orange.fr');
+	(10, 'Casaubon', 'Jean-Michel', 'M', '1965-06-02', '38 Grand\'Rue', '67430', 'Diemeringen', '(+33) 6.38.26.16.22', 'jm_casaubon@orange.fr'),
+	(11, 'Doe', 'John', 'M', '1965-02-28', 'wsdfghjkolp', 'xdcfgh', 'wsxdcfbjkl', 'xdfgyhukpm^ù$', 'a@b.c');
 /*!40000 ALTER TABLE `stagiaire` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -100,12 +100,31 @@ class StagiaireController extends AbstractController
     }
 
     /**
+     * @Route("/confirm", name="confirm_delete_anonymize_stagiaire")
+     */
+    public function confirm(Request $request, EntityManagerInterface $emi)
+    {
+        $stagiaireId = $request->query->get("id") ;
+        $stagiaire = $emi->getRepository(Stagiaire::class)->findOneBy(['id' => $stagiaireId]) ;
+
+        $html = $this->renderView('stagiaire/ajax.html.twig', [
+            "stagiaire" => $stagiaire
+        ]) ;
+
+        return new Response($html) ;
+    }
+
+    /**
      * @Route("/delete/{id}", name="delete_stagiaire")
      */
     public function delete(Stagiaire $stagiaire, EntityManagerInterface $emi)
     {
-        $emi->remove($stagiaire);
-        $emi->flush();
+        if ($stagiaire->getNbSessionsSuivies() == 0) {
+            $emi->remove($stagiaire);
+            $emi->flush();
+        } else {
+            $this->addFlash('danger', "Seul un stagiaire inscrit à aucune session peut être supprimé !");
+        }
 
         return $this->redirectToRoute("home_stagiaire");
     }
@@ -146,9 +165,24 @@ class StagiaireController extends AbstractController
             $session = $this->getDoctrine()
                         ->getRepository(Session::class)
                         ->find($sessionId) ;
+            
+            $ok = true ;
+            foreach ($stagiaire->getSessions() as $sessionSuivie) {
+                if ((($session->getDateDebut() >= $sessionSuivie->getDateDebut()) && 
+                    ($session->getDateDebut() <= $sessionSuivie->getDateFin()))
+                    ||
+                    (($session->getDateFin() >= $sessionSuivie->getDateDebut()) && 
+                    ($session->getDateFin() <= $sessionSuivie->getDateFin()))) {
+                        $ok = false ;
+                    }
+            }
 
-            $stagiaire->addSession($session) ;
-            $emi->flush();
+            if ($ok) {
+                $stagiaire->addSession($session) ;
+                $emi->flush();
+            } else {
+                $this->addFlash('danger', "Le stagiaire ne peut pas être inscrit à cette session (chevauchement avec une autre session à laquelle il est déjà inscrit) !");
+            }
         }
 
         return $this->redirectToRoute("detail_stagiaire", [

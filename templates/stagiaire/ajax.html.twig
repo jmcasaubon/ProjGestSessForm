@@ -1,0 +1,30 @@
+{% if (stagiaire.nbSessionsSuivies == 0) or ((stagiaire.nbSessionsEnCours + stagiaire.nbSessionsFutures) == 0) %}
+<table>
+    <tbody>
+        <tr>
+            <td class="center">
+                &nbsp;
+            </td>
+            <th>{{stagiaire.nom | upper}} {{stagiaire.prenom | title}}</th>
+        </tr>
+       <tr>
+            <th class="right">Né{% if stagiaire.sexe == 'F' %}e{% endif %} le</th>
+            <td>{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
+        </tr>
+        <tr>
+            <th class="right">Adresse</th>
+            <td>{{stagiaire.adresse}}<br>{{stagiaire.cPostal}}&nbsp;{{stagiaire.ville | upper}}</td>
+        </tr>
+       <tr>
+            <th class="right">Téléphone</th>
+            <td>{{stagiaire.telephone}}</td>
+        </tr>
+        <tr>
+            <th class="right">Mail</th>
+            <td>{{stagiaire.mail}}</td>
+        </tr>
+    </tbody>
+</table>
+{% else %}
+<span class="badge badge-danger">Stagiaire non supprimable !</span>
+{% endif %}

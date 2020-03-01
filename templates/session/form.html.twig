@@ -1,4 +1,4 @@
-{# Vue associée au formulaire de création / modification d'une session #}
+{# Vue associée au formulaire de création / modification d'une session (et de son programme) #}
 
 {% extends 'base.html.twig' %}
 
@@ -7,11 +7,11 @@
 
     {{ form_start(form) }}
 
-    {% if not form.vars.valid %}
+    {# {% if not form.vars.valid %}
     <div class="alert-danger alert center">
         {{ form_errors() }}
     </div>
-    {% endif %}
+    {% endif %} #}
 
     {{ form_row(form.intitule) }}
     {{ form_row(form.dateDebut) }}

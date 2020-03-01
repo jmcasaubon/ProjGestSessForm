@@ -1,4 +1,4 @@
-// Scripts jQuery / JavaScript personnels
+// Scripts jQuery / JavaScript généraux
 
 $(document).ready(function() { // Une fois que le document (base.html.twig) HTML/CSS a bien été complètement chargé...
 
@@ -25,9 +25,9 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
         var newElem = $(list.attr('data-widget-tags')).html(newWidget)
         addDeleteLink($(newElem).find('div.borders'))
         newElem.appendTo(list)
-    });
+    })
 
-    // remove-collection-widget.js : fonction permettant de supprimer un bloc "programme" existant au sein d'une session
+    // anonymize-collection-widget.js : fonction permettant de supprimer un bloc "programme" existant au sein d'une session
     $('.remove-collection-widget').find('div.borders').each(function() {
         addDeleteLink($(this))
     })
@@ -39,7 +39,62 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
     
         $removeFormButton.on('click', function(e) {
             $moduleForm.remove()
-        });
-    
+        })
     }
+
+    // remove-session.js : fonction permettant de demander la confirmation de suppression d'une session
+    $('.remove-session-confirm').on('click', function(e) {
+        e.preventDefault()
+
+        let id=$(this).data('id')
+        let href=$(this).attr('href')
+
+        showModalConfirm(id, href, "Confirmation de suppression d'une session")
+    })
+
+    // remove-stagiaire.js : fonction permettant de demander la confirmation de suppression d'un stagiaire
+    $('.remove-stagiaire-confirm').on('click', function(e) {
+        e.preventDefault()
+
+        let id=$(this).data('id')
+        let href=$(this).attr('href')
+
+        showModalConfirm(id, href, "Confirmation de suppression d'un stagiaire")
+    })
+
+    // anonymize-stagiaire.js : fonction permettant de demander la confirmation d'anonymisation d'un stagiaire
+    $('.anonymize-stagiaire-confirm').on('click', function(e) {
+        e.preventDefault()
+
+        let id=$(this).data('id')
+        let href=$(this).attr('href')
+
+        showModalConfirm(id, href, "Confirmation de l'anonymisation d'un stagiaire")
+    })
+
+    // Fonction permettant l'affichage de la fenêtre modale de confirmation pour chaque situation
+    function showModalConfirm($id, $href, $title) {
+        console.log("id   = "+$id)
+        console.log("href = "+$href)
+
+        $('#modalPopup .modal-title').html($title)
+        $('#modalPopup .modal-body').html("<span class='center'><i class='fas fa-spinner fa-spin fa-4x'></i></span>")
+
+        $.get(
+            "confirm", // La route doit toujours être accessible au moyen du chemin "confirm" dans le contrôleur associé à l'entité concernée 
+            {
+                'id' : $id
+            },
+            function(resView) {
+                $('#modalPopup .modal-body').html(resView)
+            }
+        )
+
+        $('#modalConfirm').on('click', function(e){
+            window.location.href = $href
+        })
+
+        $('#modalPopup').modal('show')
+    }
+    
 })

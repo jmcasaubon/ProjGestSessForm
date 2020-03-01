@@ -210,6 +210,59 @@ class Session
         return $duree;
     }
 
+    public function getNbJoursOuvres(): ?int
+    {
+        $duree = 0 ;
+
+        $jrD = $this->getDateDebut()->format("z") ;
+        $jrF = $this->getDateFin()->format("z") ;
+
+        $anD = $this->getDateDebut()->format("Y") ;
+        $anF = $this->getDateFin()->format("Y") ;
+
+        $an = $anD ;
+        // Pour chaque année couverte par la session de formation ...
+        do {
+            // Quantième de la date de Pâques de l'année en cours (permettra de trouver les jours fériés mobiles)
+            $noJP = easter_days($an) + date("z", mktime(0, 0, 0, 31, 3, $an));
+
+            // Quantièmes du premier jour et du dernier jour à prendre en compte dans l'année en cours 
+            $noJD = ($an == $anD) ? $jrD : 0 ;
+            $noJF = ($an == $anF) ? $jrF : date("z", mktime(0, 0, 0, 31, 12, $an)) ;
+
+            // Construction d'un tableau des jours fériés (en Alsace !)
+            $tblF = array(
+                // Dates fixes
+                date("z", mktime(0, 0, 0, 1, 1, $an)),      // Jour de l'An
+                date("z", mktime(0, 0, 0, 5, 1, $an)),      // Fête du travail
+                date("z", mktime(0, 0, 0, 5, 8, $an)),      // Victoire 1945
+                date("z", mktime(0, 0, 0, 7, 14, $an)),     // Fête Nationale
+                date("z", mktime(0, 0, 0, 8, 15, $an)),     // Assomption
+                date("z", mktime(0, 0, 0, 11, 1, $an)),     // Toussaint
+                date("z", mktime(0, 0, 0, 11, 11, $an)),    // Victoire 1918
+                date("z", mktime(0, 0, 0, 12, 25, $an)),    // Noël
+                date("z", mktime(0, 0, 0, 12, 26, $an)),    // Lendemain de Noël
+                // Fêtes mobiles (basées sur la date de Pâques)
+                $noJP - 2,                                  // Vendredi Saint
+                $noJP + 1,                                  // Lundi de Pâques
+                $noJP + 39,                                 // Jeudi de l'Ascension
+                $noJP + 50,                                 // Lundi de Pentecôte
+            ) ;
+
+            // Pour tous les jours de l'année en cours, situés entre les jours de début et de fin ...
+            for ($j = $noJD ; $j <= $noJF ; $j++) {
+                $typJ = date("w", (mktime(0, 0, 0, 1, 1, $an) + ($j * (24 * 60 * 60)))) ;
+
+                // ... on ne compte '+ 1' que si le jour n'est ni un dimanche, ni un samedi, ni un jour férié.
+                $duree += ((($typJ == 0) || ($typJ == 6)) || in_array($j, $tblF)) ? 0 : 1 ;
+            }
+
+            $an++ ;
+        } while ($an < $anF) ;
+
+        return $duree;
+    }
+
     public function getNbStagiaires(): ?int
     {
         return count($this->stagiaires);

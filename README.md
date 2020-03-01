@@ -9,3 +9,5 @@ On doit pouvoir savoir à tout moment le nombre de places restantes en fonction 
 
 Chaque session de formation possède un programme constitué d'un ou plusieurs modules appartenant à une certaine catégorie (exemple : Word, Excel et Powerpoint appartiennent à la catégorie BUREAUTIQUE, PHP, SQL et JavaScript appartiennent à la catégorie DEV WEB, ...).
 Chaque module a un nombre de jours précis qui peut varier d’une session de formation à l’autre.
+
+Le dossier de synthèse, ainsi que le diaporama de présentation associé, peuvent être consultés dans le dossier “design”.

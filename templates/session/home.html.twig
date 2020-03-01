@@ -3,37 +3,44 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p class="right mtop"><a class="button big" href="{{path('add_session')}}">Ajouter une session</a></p>
-    <h1 class="center">Liste des sessions</h1>
+    <p class="right mg-top"><a class="button big" href="{{path('add_session')}}">Ajouter une session</a></p>
+    <h1 class="center no-mg-top">Liste des sessions</h1>
     <table class="with-borders">
         <thead>
             <tr>
                 <th class="left">Intitulé session</th>
-                <th class="center">Date de<br>début</th>
-                <th class="center">Date de<br>fin</th>
+                <th class="center">Date<br>de démarrage</th>
+                <th class="center">Date<br>d'achèvement</th>
                 <th class="center">Nb. jours<br>ouvrés</th>
                 <th class="center">Nb. jours<br>programmés</th>
                 <th class="center">Nb. Places<br>théoriques</th>
                 <th class="center">Nb. Places<br>réservées</th>
                 <th class="center">Nb. Places<br>disponibles</th>
-                <th class="center">Détails</th>
+                <th class="center">Action(s)</th>
             </tr>
         </thead>
         <tbody>
             {% for session in sessions %}
             <tr>
-                <td class="left">{{session.intitule}}</td>
+                <td class="left">{% if not session.future %}<i class="fas fa-lock light-blue"></i>&nbsp;{% endif %}{{session.intitule}}</td>
                 <td class="center">{{session.dateDebut | date("d/m/Y")}}</td>
                 <td class="center">{{session.dateFin | date("d/m/Y")}}</td>
-                <td class="center">...</td>
+                <td class="center">{{session.nbJoursOuvres}}</td>
                 <td class="center">{{session.duree}}</td>
                 <td class="center">{{session.nbPlaces}}</td>
                 <td class="center">{{session.nbStagiaires}}</td>
-                <td class="center">{{session.nbPlacesLibres}}</td>
+                <td class="center">
+                    {% if session.nbPlacesLibres > 0 %}
+                    {{session.nbPlacesLibres}}</td>
+                    {% else %}
+                    <span class="badge badge-pill light-blue-back">complète</span>
+                    {% endif %}
                 <td class="center">
                     <a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a>
                     {% if session.nbStagiaires == 0 %}
-                    <a class="button" href="{{path('delete_session', {'id': session.id})}}"><i class="fas fa-trash"></i></a>
+                    <a class="button remove-session-confirm"
+                       data-model="modal" data-target="#modalPopup" data-id="{{session.id}}" 
+                       href="{{path('delete_session', {'id': session.id})}}"><i class="fas fa-trash"></i></a>
                     {% endif %}
                 </td>
             </tr>

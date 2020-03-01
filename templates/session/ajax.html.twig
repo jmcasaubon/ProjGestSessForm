@@ -1,0 +1,49 @@
+{# Vue associée à l'affichage des détails d'une session dans la fenêtre "popup" modale de confirmation de suppression #}
+
+{% if session.nbStagiaires == 0 %}
+<table>
+    <tbody>
+        <tr>
+            <td class="center">
+                &nbsp;
+            </td>
+            <th>{{session.intitule}}</th>
+        </tr>
+       <tr>
+            <th class="right">Dates</th>
+            <td>du {{session.dateDebut | date("d/m/Y")}} au {{session.dateFin | date("d/m/Y")}}</td>
+        </tr>
+        <tr>
+            <th class="right">Durée</th>
+            <td>{{session.duree}} jours</td>
+        </tr>
+        <tr>
+            <th class="right">Nb. places</th>
+            <td>{{session.nbPlaces}} participants</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" class="center">Programme</th>
+        </tr>
+        <tr>
+            <th class="left">Catégorie</th>
+            <th class="left">Module</th>
+            <th class="center">Nb. jours</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for programme in session.programmes %}
+        <tr>
+            <td class="left">{{programme.module.categorie.libelle}}</td>
+            <td class="left">{{programme.module.libelle}}</td>
+            <td class="center">{{programme.duree}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<span class="badge badge-danger">Session non supprimable !</span>
+{% endif %}

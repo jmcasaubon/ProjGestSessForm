@@ -17,6 +17,7 @@
 .right {
     text-align: right;
 }
+
 .flex {
     display: flex;
     flex-wrap: wrap;
@@ -29,14 +30,25 @@
     display: flex;
     justify-content: flex-end;
 }
+
 .borders {
     border: 1px solid #00cfff ;
     border-radius: .25em;
     padding: .5em;
 }
-.mtop {
+.light-blue {
+    color: #7fcfff;
+}
+.light-blue-back {
+    background-color: #7fcfff;
+}
+
+.mg-top {
     margin-top: 2em;
     margin-bottom: 0;
+}
+.no-mg-top {
+    margin-top: 0;
 }
 
 .link-no-decor {
@@ -131,6 +143,7 @@ header {
     max-width: 96px;
     max-height: 96px;
 }
+
 #menu {
     flex: 1;
     display: flex ;

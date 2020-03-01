@@ -71,6 +71,7 @@ class Stagiaire
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Session", mappedBy="stagiaires")
+     * @ORM\OrderBy({"dateDebut" = "ASC", "dateFin" = "ASC"})
      */
     private $sessions;
 
@@ -86,7 +87,7 @@ class Stagiaire
 
     public function getNom(): ?string
     {
-        return $this->nom;
+        return (mb_strtoupper($this->nom));
     }
 
     public function setNom(string $nom): self
@@ -98,7 +99,7 @@ class Stagiaire
 
     public function getPrenom(): ?string
     {
-        return $this->prenom;
+        return ucwords($this->prenom, "-_ \t\r\n\f\v");
     }
 
     public function setPrenom(string $prenom): self
@@ -231,7 +232,7 @@ class Stagiaire
 
     public function getNomPrenom(): ?string
     {
-        return (strtoupper($this->getNom()).' '.ucwords($this->getPrenom()));
+        return ($this->getNom().' '.$this->getPrenom());
     }
     public function getAge(): ?int
     {

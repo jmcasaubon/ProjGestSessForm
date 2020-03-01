@@ -72,7 +72,7 @@
         <tbody>
             {% for stagiaire in session.stagiaires %}
             <tr>
-                <td class="left">{{stagiaire.nom | upper}} {{stagiaire.prenom | capitalize}}</td>
+                <td class="left">{{stagiaire.nomPrenom}}</td>
                 <td class="center">{{stagiaire.sexe}}</td>
                 <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
                 {% if session.future %}

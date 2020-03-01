@@ -64,17 +64,21 @@ class SessionController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if ($session->getDateFin() > $session->getDateDebut()) {
-                try {
-                    $emi->persist($session);
-                    $emi->flush();
+                if ($session->getDuree() <= $session->getNbJoursOuvres()) {
+                    try {
+                        $emi->persist($session);
+                        $emi->flush();
 
-                    return $this->redirectToRoute('home_session');
-                }
-                catch (UniqueConstraintViolationException $e) {
-                    $this->addFlash('danger', "Un même module ne peut pas apparaître deux fois au sein d'un programme !");
+                        return $this->redirectToRoute('home_session');
+                    }
+                    catch (UniqueConstraintViolationException $e) {
+                        $this->addFlash('danger', "Un même module ne peut pas apparaître deux fois au sein d'un programme !");
+                    }
+                } else {
+                    $this->addFlash('danger', "La période prévue pour la session ne permet pas de contenir la totalité des modules du programme !");
                 }
             } else {
-                $this->addFlash('danger', "La date d'achèvement doit être postérieure à la date de démarrage !");
+                    $this->addFlash('danger', "La date d'achèvement doit être postérieure à la date de démarrage !");
             }
         }
         
@@ -97,14 +101,18 @@ class SessionController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()){
                 if ($session->getDateFin() > $session->getDateDebut()) {
-                    try {
-                            $emi->persist($session);
-                            $emi->flush();
-        
-                            return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
-                    }
-                    catch (UniqueConstraintViolationException $e) {
-                        $this->addFlash('danger', "Un même module ne peut pas apparaître deux fois au sein d'un programme !");
+                    if ($session->getDuree() <= $session->getNbJoursOuvres()) {
+                        try {
+                                $emi->persist($session);
+                                $emi->flush();
+            
+                                return $this->redirectToRoute('detail_session', ["id" => $session->getId()]);
+                        }
+                        catch (UniqueConstraintViolationException $e) {
+                            $this->addFlash('danger', "Un même module ne peut pas apparaître deux fois au sein d'un programme !");
+                        }
+                    } else {
+                        $this->addFlash('danger', "La période prévue pour la session ne permet pas de contenir la totalité des modules du programme !");
                     }
                 } else {
                     $this->addFlash('danger', "La date d'achèvement doit être postérieure à la date de démarrage !");
@@ -119,6 +127,21 @@ class SessionController extends AbstractController
         } else {
             return $this->redirectToRoute('home_session');
         }
+    }
+
+    /**
+     * @Route("/confirm", name="confirm_delete_session")
+     */
+    public function confirm(Request $request, EntityManagerInterface $emi)
+    {
+        $sessionId = $request->query->get("id") ;
+        $session = $emi->getRepository(Session::class)->findOneBy(['id' => $sessionId]) ;
+
+        $html = $this->renderView('session/ajax.html.twig', [
+            "session" => $session
+        ]) ;
+
+        return new Response($html) ;
     }
 
     /**
@@ -147,9 +170,24 @@ class SessionController extends AbstractController
             $stagiaire = $this->getDoctrine()
                             ->getRepository(Stagiaire::class)
                             ->find($stagiaireId) ;
-
-            $session->addStagiaire($stagiaire) ;
-            $emi->flush();
+            
+            $ok = true ;
+            foreach ($stagiaire->getSessions() as $sessionSuivie) {
+                if ((($session->getDateDebut() >= $sessionSuivie->getDateDebut()) && 
+                    ($session->getDateDebut() <= $sessionSuivie->getDateFin()))
+                    ||
+                    (($session->getDateFin() >= $sessionSuivie->getDateDebut()) && 
+                    ($session->getDateFin() <= $sessionSuivie->getDateFin()))) {
+                        $ok = false ;
+                    }
+            }
+                
+            if ($ok) {
+                $session->addStagiaire($stagiaire) ;
+                $emi->flush();
+            } else {
+                $this->addFlash('danger', "Le stagiaire ne peut pas être inscrit à cette session (chevauchement avec une autre session à laquelle il est déjà inscrit) !");
+            }
         }
 
         return $this->redirectToRoute("detail_session", [
