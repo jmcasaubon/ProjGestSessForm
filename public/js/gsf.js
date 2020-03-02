@@ -78,7 +78,7 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
         console.log("href = "+$href)
 
         $('#modalPopup .modal-title').html($title)
-        $('#modalPopup .modal-body').html("<span class='center'><i class='fas fa-spinner fa-spin fa-4x'></i></span>")
+        $('#modalPopup .modal-body').html("<p class='center no-mg-bottom'><i class='fas fa-spinner fa-spin fa-4x'></i></p>")
 
         $.get(
             "confirm", // La route doit toujours être accessible au moyen du chemin "confirm" dans le contrôleur associé à l'entité concernée 
@@ -94,7 +94,8 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
             window.location.href = $href
         })
 
-        $('#modalPopup').modal('show')
+        // La ligne suivante a été supprimée, car on utilise désormais l'attribut "data-toggle" plutôt que "data-modal" sur les liens d'appel
+        // $('#modalPopup').modal('show') 
     }
     
 })

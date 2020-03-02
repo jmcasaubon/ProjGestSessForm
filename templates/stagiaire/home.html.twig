@@ -32,12 +32,12 @@
                     <a class="button" href="{{path('detail_stagiaire', {'id': stagiaire.id})}}"><i class="far fa-eye"></i></a>
                     {% if stagiaire.nbSessionsSuivies == 0 %}
                     <a class="button remove-stagiaire-confirm"
-                       data-model="modal" data-target="#modalPopup" data-id="{{stagiaire.id}}" 
+                       data-toggle="modal" data-target="#modalPopup" data-id="{{stagiaire.id}}" 
                        href="{{path('delete_stagiaire', {'id': stagiaire.id})}}"><i class="fas fa-trash"></i></a>
                     {% else %}
                     {% if (stagiaire.nbSessionsEnCours + stagiaire.nbSessionsFutures) == 0 %}
                     <a class="button anonymize-stagiaire-confirm"
-                       data-model="modal" data-target="#modalPopup" data-id="{{stagiaire.id}}" 
+                       data-toggle="modal" data-target="#modalPopup" data-id="{{stagiaire.id}}" 
                        href="{{path('anonymize_stagiaire', {'id': stagiaire.id})}}"><i class="fas fa-mask"></i></a>
                     {% endif %}
                     {% endif %}

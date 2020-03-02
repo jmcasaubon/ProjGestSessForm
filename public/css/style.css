@@ -50,6 +50,9 @@
 .no-mg-top {
     margin-top: 0;
 }
+.no-mg-bottom {
+    margin-bottom: 0;
+}
 
 .link-no-decor {
     color: #007fff;
