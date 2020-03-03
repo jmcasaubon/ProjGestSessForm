@@ -99,33 +99,33 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
     }
     
     // Fonction permettant dans le formulaire de saisie des informations d'un stagiaire, de mettre à jour la liste des villes en fonction du code postal donné précédemment
-    $('.code-postal').on('change', function () {
+    $('#stagiaire_cpostal').on('change', function () {
+        // On récupère le code postal saisi
         let code=$(this).val()
-        console.log("Code Postal : "+code)
 
+        // URL de base de l'API Géo (libre d'accès), avec début de la requête d'obtention des communes par code postal
         const baseUrl="https://geo.api.gouv.fr/communes?codePostal="
+        // Fin de la requête, avec les arguments supplémentaires à fournir (champs souhaités, et format de la réponse)
         const argsUrl="&fields=nom&format=json"
 
+        // On compose la requête complète par assemblage des éléemnts précédents etre lesquels on insère le code postal saisi
         let apiUrl=baseUrl+code+argsUrl
-        console.log("API URL : "+apiUrl)
 
+        // Émission de la requête API, puis attente de la réponse JSON, puis décodage et traitement de celle-ci
         fetch(apiUrl, {method: 'get'}).then(response => response.json()).then(result => {
-            $('.choix-ville').find('option').remove()
+            // Effacement de la liste actuelle de choix de villes dans le champ associé
+            $('#stagiaire_ville').find('option').remove()
+
+            // Si la requête API a retourné un tableau, celui-ci sera à traiter élément par élément, pour ajouter chaque ville reçue à la liste de choix des villes
             if(result.length) {
                 $.each(result, function(key, commune) {
-                    // $.each(commune, function(champ, valeur) {
-                        // console.log("Résultat : "+champ+" "+valeur)
-                        // if (champ == 'nom') {
-                            // $('.choix-ville').append('<option value="'+valeur+'">'+valeur+'</option>')
-                        // }
-                    // })
-                    console.log("Résultat : "+commune.nom)
-                    $('.choix-ville').append('<option value="'+commune.nom+'">'+commune.nom+'</option>')
+                    $('#stagiaire_ville').append('<option value="'+commune.nom+'">'+commune.nom+'</option>')
                 })
+            // Si la requête API ne retourne aucune valeur, c'est que le code postal n'a pas été reconnu : on aura donc une liste de villes vide !
             } else {
                 console.log("Résultats : CODE POSTAL INVALIDE !!!")
-                $('.choix-ville').append('<option value="-">---</option>')
             }
+        // En cas d'échec de la requête API, la liste actuelle de choix de villes restera inchangée
         }).catch(err => {
             console.log("Erreur (API Geo) :"+err)
         })

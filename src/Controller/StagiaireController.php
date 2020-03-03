@@ -56,14 +56,20 @@ class StagiaireController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            try {
-                $emi->persist($stagiaire);
-                $emi->flush();
+            if (($stagiaire->getCpostal() == "") || ($stagiaire->getVille() > "")) {
+                try {
+                    $emi->persist($stagiaire);
+                    $emi->flush();
 
-                return $this->redirectToRoute('home_stagiaire');
-            }
-            catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', "Cette adresse de mesagerie est déjà utilisée !");
+                    return $this->redirectToRoute('home_stagiaire');
+                }
+                catch (UniqueConstraintViolationException $e) {
+                    $this->addFlash('danger', "Cette adresse de mesagerie est déjà utilisée !");
+                }
+            } else {
+                if ($stagiaire->getCpostal() > "") {
+                    $this->addFlash('danger', "Le code postal saisi n'est associé à aucune commune !");
+                }
             }
         }
         
@@ -83,16 +89,22 @@ class StagiaireController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            try {
-                $emi->flush();
+            if (($stagiaire->getCpostal() == "") || ($stagiaire->getVille() > "")) {
+                try {
+                    $emi->flush();
 
-                return $this->redirectToRoute('detail_stagiaire', ["id" => $stagiaire->getId()]);
-            }
-            catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', "Cette adresse de messagerie est déjà utilisée !");
+                    return $this->redirectToRoute('detail_stagiaire', ["id" => $stagiaire->getId()]);
+                }
+                catch (UniqueConstraintViolationException $e) {
+                    $this->addFlash('danger', "Cette adresse de messagerie est déjà utilisée !");
+                }
+            } else {
+                if ($stagiaire->getCpostal() > "") {
+                    $this->addFlash('danger', "Le code postal saisi n'est associé à aucune commune !");
+                }
             }
         }
-            
+                
         return $this->render('stagiaire/form.html.twig', [
             "form" => $form->createView(),
             "title" => "Modifier"

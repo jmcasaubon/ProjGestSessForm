@@ -21,6 +21,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CodePostalVilleListener implements EventSubscriberInterface
 {
+    // Méthode surchargée, permettant d'enregistrer les événements à surveiller
     public static function getSubscribedEvents()
     {
         return [
@@ -29,25 +30,43 @@ class CodePostalVilleListener implements EventSubscriberInterface
         ];
     }
 
+    // Événement déclenché lors du chargement du formulaire (juste après l'extraction des données de la BdD)
     public function onPreSetData(FormEvent $event)
     {
+        // À cet instant, "$data" contient un objet "Stagiaire"
         $data = $event->getData() ;
         $form = $event->getForm() ;
 
         $ville = $data->getVille();
 
-        $form->add('ville', ChoiceType::class, [
-            'choices' => [$ville => $ville],
-            'attr' => [ 'class' => 'choix-ville' ],
-        ]);
+        if ($ville > "") {
+            $form->add('ville', ChoiceType::class, [
+                'label' => 'Ville',
+                'choices' => [$ville => $ville],
+                'required' => false
+            ]);
+        }
     }
 
+    // Événement déclenché à la soumission du formulaire AVANT validation globale de celui-ci
     public function onPreSubmit(FormEvent $event)
     {
-        $input = $event->getData()['ville'] ;
-        $event->getForm()->add('ville', ChoiceType::class, [
-            'choices' => [$input]
-        ]);
+        // À cet instant, "$data" contient un tableau de tous les champs du formulaire, avec la valeur associée à chacun
+        $data = $event->getData() ;
+        $form = $event->getForm() ;
+
+        if (array_key_exists('ville', $data)) {
+            $form->add('ville', ChoiceType::class, [
+                'label' => 'Ville',
+                'choices' => [$data['ville']],
+                'required' => false
+            ]);
+        } else {
+            $form->add('ville', ChoiceType::class, [
+                'label' => 'Ville',
+                'required' => false
+            ]);
+         }
     }
 }
 
@@ -78,12 +97,10 @@ class StagiaireType extends AbstractType
             ])
             ->add('cpostal',        TextType::class, [
                 'label' => 'Code Postal',
-                'attr' => [ 'class' => 'code-postal' ],
                 'required' => false
             ])
             ->add('ville',          ChoiceType::class, [
                 'label' => 'Ville',
-                'attr' => [ 'class' => 'choix-ville' ],
                 'required' => false
             ])
             ->addEventSubscriber(new CodePostalVilleListener())
