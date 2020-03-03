@@ -98,4 +98,37 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
         // $('#modalPopup').modal('show') 
     }
     
+    // Fonction permettant dans le formulaire de saisie des informations d'un stagiaire, de mettre à jour la liste des villes en fonction du code postal donné précédemment
+    $('.code-postal').on('change', function () {
+        let code=$(this).val()
+        console.log("Code Postal : "+code)
+
+        const baseUrl="https://geo.api.gouv.fr/communes?codePostal="
+        const argsUrl="&fields=nom&format=json"
+
+        let apiUrl=baseUrl+code+argsUrl
+        console.log("API URL : "+apiUrl)
+
+        fetch(apiUrl, {method: 'get'}).then(response => response.json()).then(result => {
+            $('.choix-ville').find('option').remove()
+            if(result.length) {
+                $.each(result, function(key, commune) {
+                    // $.each(commune, function(champ, valeur) {
+                        // console.log("Résultat : "+champ+" "+valeur)
+                        // if (champ == 'nom') {
+                            // $('.choix-ville').append('<option value="'+valeur+'">'+valeur+'</option>')
+                        // }
+                    // })
+                    console.log("Résultat : "+commune.nom)
+                    $('.choix-ville').append('<option value="'+commune.nom+'">'+commune.nom+'</option>')
+                })
+            } else {
+                console.log("Résultats : CODE POSTAL INVALIDE !!!")
+                $('.choix-ville').append('<option value="-">---</option>')
+            }
+        }).catch(err => {
+            console.log("Erreur (API Geo) :"+err)
+        })
+    })
+
 })
