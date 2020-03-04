@@ -21,10 +21,14 @@
 .flex {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 .flex-action {
     justify-content: flex-end;    
     margin-right: 0;    
+}
+.flex-right {
+    justify-self: flex-end;
 }
 .block {
     display: flex;

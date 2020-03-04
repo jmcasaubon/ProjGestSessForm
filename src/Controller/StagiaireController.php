@@ -64,7 +64,7 @@ class StagiaireController extends AbstractController
                     return $this->redirectToRoute('home_stagiaire');
                 }
                 catch (UniqueConstraintViolationException $e) {
-                    $this->addFlash('danger', "Cette adresse de mesagerie est déjà utilisée !");
+                    $this->addFlash('danger', "Cette adresse de messagerie est déjà utilisée !");
                 }
             } else {
                 if ($stagiaire->getCpostal() > "") {

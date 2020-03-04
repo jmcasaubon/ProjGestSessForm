@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="flex mg-top">
+            <strong>Vous êtes actuellement connecté en tant que '{{ app.user.pseudo }}'</strong>
+            <p><a class="button big" href="{{ path('app_logout') }}">Se déconnecter</a></p>
+        </div>
+    {% endif %}
+
+    <h1 class="center">Informations de connexion</h1>
+    <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="inputEmail">Email</label>
+        <div class="col-sm-10">
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="inputPassword">Mot de passe</label>
+        <div class="col-sm-10">
+            <input type="password" name="password" id="inputPassword" class="form-control" required>
+        </div>
+    </div>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    {# <button class="btn btn-lg btn-primary" type="submit"> #}
+    <div class="form-group row mg-top">
+        <div class="col-form-label col-sm-2">&nbsp;</div>
+        <div class="col-sm-5"><button class="button big" type="submit">Se connecter</button></div>
+        <div class="col-sm-5"><p class="block"><a class="button big" href="{{ path('app_register') }}">S'enregistrer</a></p></div>
+    </div>
+</form>
+{% endblock %}

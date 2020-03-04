@@ -28,6 +28,11 @@
                 <a class="button big" href="{{path('home_session')}}">Sessions</a>
                 <a class="button big" href="{{path('home_stagiaire')}}">Stagiaires</a>
                 {# <a class="button big" href="{{path('home_programme')}}">Programmation</a> #}
+                {% if app.user %}
+                    <a class="button big" href="{{path('app_logout')}}">Déconnexion : {{ app.user.pseudo | upper }}</a>
+                {% else %}
+                    <a class="button big" href="{{path('app_login')}}">Connexion</a>
+                {% endif %}
             </nav>
         </header>
         <hr>

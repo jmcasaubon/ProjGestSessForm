@@ -3,7 +3,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% if is_granted('ROLE_ADMIN') %}
     <p class="right mg-top"><a class="button big" href="{{path('add_stagiaire')}}">Ajouter un stagiaire</a></p>
+    {% endif %}
     <h1 class="center no-mg-top">Liste des stagiaires</h1>
     <table class="with-borders">
         <thead>
@@ -15,7 +17,9 @@
                 <th class="center">Nb. sessions<br>achevées</th>
                 <th class="center">Nb. sessions<br>en cours</th>
                 <th class="center">Nb. sessions<br>à venir</th>
+                {% if is_granted('ROLE_ADMIN') %}
                 <th class="center">Action(s)</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -28,6 +32,7 @@
                 <td class="center">{{stagiaire.nbSessionsAchevees}}</td>
                 <td class="center">{{stagiaire.nbSessionsEnCours}}</td>
                 <td class="center">{{stagiaire.nbSessionsFutures}}</td>
+                {% if is_granted('ROLE_ADMIN') %}
                 <td class="center">
                     <a class="button" href="{{path('detail_stagiaire', {'id': stagiaire.id})}}"><i class="far fa-eye"></i></a>
                     {% if stagiaire.nbSessionsSuivies == 0 %}
@@ -42,6 +47,7 @@
                     {% endif %}
                     {% endif %}
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
