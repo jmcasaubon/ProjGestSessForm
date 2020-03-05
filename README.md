@@ -1,4 +1,4 @@
-Gestion de Session de Formation
+Gestion de Sessions de Formation
 ===============================
 
 Exercice ayant pour but de développer une application permettant de gérer des sessions de formation et des stagiaires qui s'inscrivent à une ou plusieurs sessions.
