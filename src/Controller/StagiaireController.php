@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -46,6 +47,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/add", name="add_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function add(Request $request, EntityManagerInterface $emi) 
     {
@@ -81,6 +83,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/update/{id}", name="update_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function update(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
     {
@@ -113,6 +116,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/confirm", name="confirm_delete_anonymize_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function confirm(Request $request, EntityManagerInterface $emi)
     {
@@ -128,6 +132,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="delete_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Stagiaire $stagiaire, EntityManagerInterface $emi)
     {
@@ -143,6 +148,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/anon/{id}", name="anonymize_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function anonymize(Stagiaire $stagiaire, EntityManagerInterface $emi)
     {
@@ -168,6 +174,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/register/{id}", name="register_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function register(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
     {
@@ -204,6 +211,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/cancel/{id}/{sessionId}", name="cancel_stagiaire")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function cancel(Stagiaire $stagiaire, Request $request, EntityManagerInterface $emi)
     {

@@ -19,6 +19,8 @@
                 <th class="center">Nb. sessions<br>à venir</th>
                 {% if is_granted('ROLE_ADMIN') %}
                 <th class="center">Action(s)</th>
+                {% else %}
+                <th class="center">Détails</th>
                 {% endif %}
             </tr>
         </thead>
@@ -32,22 +34,22 @@
                 <td class="center">{{stagiaire.nbSessionsAchevees}}</td>
                 <td class="center">{{stagiaire.nbSessionsEnCours}}</td>
                 <td class="center">{{stagiaire.nbSessionsFutures}}</td>
-                {% if is_granted('ROLE_ADMIN') %}
                 <td class="center">
                     <a class="button" href="{{path('detail_stagiaire', {'id': stagiaire.id})}}"><i class="far fa-eye"></i></a>
-                    {% if stagiaire.nbSessionsSuivies == 0 %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if stagiaire.nbSessionsSuivies == 0 %}
                     <a class="button remove-stagiaire-confirm"
                        data-toggle="modal" data-target="#modalPopup" data-id="{{stagiaire.id}}" 
                        href="{{path('delete_stagiaire', {'id': stagiaire.id})}}"><i class="fas fa-trash"></i></a>
-                    {% else %}
-                    {% if (stagiaire.nbSessionsEnCours + stagiaire.nbSessionsFutures) == 0 %}
+                        {% else %}
+                            {% if (stagiaire.nbSessionsEnCours + stagiaire.nbSessionsFutures) == 0 %}
                     <a class="button anonymize-stagiaire-confirm"
                        data-toggle="modal" data-target="#modalPopup" data-id="{{stagiaire.id}}" 
                        href="{{path('anonymize_stagiaire', {'id': stagiaire.id})}}"><i class="fas fa-mask"></i></a>
-                    {% endif %}
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

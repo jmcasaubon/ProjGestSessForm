@@ -82,6 +82,11 @@
     color:#0f1f3f;
     padding: .5em 2em;
 }
+.button.user {
+    background-color: #00cfff;
+    color:#0f1f3f;
+    padding: .5em 2em;
+}
 .button:hover {
     background-color: #001f3f;
     color:#7fcfff;

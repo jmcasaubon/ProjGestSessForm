@@ -3,7 +3,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% if is_granted('ROLE_USER') %}
     <p class="right mg-top"><a class="button big" href="{{path('add_session')}}">Ajouter une session</a></p>
+    {% endif %}
     <h1 class="center no-mg-top">Liste des sessions</h1>
     <table class="with-borders">
         <thead>
@@ -16,7 +18,11 @@
                 <th class="center">Nb. Places<br>théoriques</th>
                 <th class="center">Nb. Places<br>réservées</th>
                 <th class="center">Nb. Places<br>disponibles</th>
+                {% if is_granted('ROLE_USER') %}
                 <th class="center">Action(s)</th>
+                {% else %}
+                <th class="center">Détails</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -35,9 +41,10 @@
                     {% else %}
                     <span class="badge badge-pill light-blue-back">complète</span>
                     {% endif %}
+                </td>
                 <td class="center">
                     <a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a>
-                    {% if session.nbStagiaires == 0 %}
+                    {% if is_granted('ROLE_USER') and (session.nbStagiaires == 0) %}
                     <a class="button remove-session-confirm"
                        data-toggle="modal" data-target="#modalPopup" data-id="{{session.id}}" 
                        href="{{path('delete_session', {'id': session.id})}}"><i class="fas fa-trash"></i></a>

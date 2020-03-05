@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -49,6 +50,7 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/add", name="add_session")
+     * @IsGranted("ROLE_USER")
      */
     public function add(Request $request, EntityManagerInterface $emi) 
     {
@@ -91,6 +93,7 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/update/{id}", name="update_session")
+     * @IsGranted("ROLE_USER")
      */
     public function update(Session $session, Request $request, EntityManagerInterface $emi)
     {
@@ -131,6 +134,7 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/confirm", name="confirm_delete_session")
+     * @IsGranted("ROLE_USER")
      */
     public function confirm(Request $request, EntityManagerInterface $emi)
     {
@@ -146,6 +150,7 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="delete_session")
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Session $session, EntityManagerInterface $emi)
     {
@@ -161,6 +166,7 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/register/{id}", name="register_session")
+     * @IsGranted("ROLE_USER")
      */
     public function register(Session $session, Request $request, EntityManagerInterface $emi)
     {
@@ -197,6 +203,7 @@ class SessionController extends AbstractController
 
     /**
      * @Route("/cancel/{id}/{stagiaireId}", name="cancel_session")
+     * @IsGranted("ROLE_USER")
      */
     public function cancel(Session $session, Request $request, EntityManagerInterface $emi)
     {
@@ -218,6 +225,7 @@ class SessionController extends AbstractController
 
      /**
      * @Route("/unset/{id}/{programmeId}", name="unset_programme")
+     * @IsGranted("ROLE_USER")
      */
     public function unset(Session $session, Request $request, EntityManagerInterface $emi)
     {

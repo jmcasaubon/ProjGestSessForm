@@ -8,7 +8,7 @@
         <tbody>
             <tr>
                 <td class="center">
-                    {% if session.future %}
+                    {% if is_granted('ROLE_USER') and session.future %}
                     <a class="button" href="{{path('update_session', {'id': session.id})}}"><i class="fas fa-pencil-alt"></i></a>
                     {% endif %}
                 </td>
@@ -48,7 +48,7 @@
                 <td class="left">{{programme.module.categorie.libelle}}</td>
                 <td class="left">{{programme.module.libelle}}</td>
                 <td class="center">{{programme.duree}}</td>
-                {% if session.future %}
+                {% if is_granted('ROLE_USER') and session.future %}
                 <td class="center"><a class="button" href="{{ path('unset_programme', {'id': session.id, 'programmeId': programme.id})}}"><i class="fas fa-trash-alt"></i></a></td>
                 {% endif %}
             </tr>
@@ -75,7 +75,7 @@
                 <td class="left">{{stagiaire.nomPrenom}}</td>
                 <td class="center">{{stagiaire.sexe}}</td>
                 <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}} ({{stagiaire.age}} ans)</td>
-                {% if session.future %}
+                {% if is_granted('ROLE_USER') and session.future %}
                 <td class="center"><a class="button" href="{{ path('cancel_session', {'id': session.id, 'stagiaireId': stagiaire.id})}}"><i class="fas fa-trash-alt"></i></a></td>
                 {% endif %}
             </tr>
@@ -84,29 +84,31 @@
     </table>
 
     {# S'il y a au moins un stagiaire disponible, on construit un mini-formulaire permettant d'ajouter des participants à cette session #}
-    {% if session.future %}
-        {% if (stagiaires | length) > 0 %}
-        <div>
-            <h2 class="center">Ajout de participants à cette session</h2>
-            <form name="participation" method="post" action="{{ path('register_session', {'id': session.id})}}">
-                <div class="form-group row">
-                    <label class="col-form-label col-sm-2 required">Stagiaire à inscrire :</label>
-                    <select class="col-sm-8" name="stagiaireId">
-                            <option value="">-- Choisissez un stagiaire disponible --</option>
-                        {% for stagiaire in stagiaires %}
-                            {# {% if session.nbPlaces > session.nbStagiaires %} #}
-                            <option value="{{stagiaire.id}}">{{stagiaire.nomPrenom}} ({{stagiaire.age}} ans)</option>
-                            {# {% endif %} #}
-                        {% endfor %}
-                    </select>
-                    <div class="col-sm-2 block"><button class="button big">Inscription</button></div>
-                </div>
-            </form>
-        </div>
+    {% if is_granted('ROLE_USER') %}
+        {% if session.future %}
+            {% if (stagiaires | length) > 0 %}
+    <div>
+        <h2 class="center">Ajout de participants à cette session</h2>
+        <form name="participation" method="post" action="{{ path('register_session', {'id': session.id})}}">
+            <div class="form-group row">
+                <label class="col-form-label col-sm-2 required">Stagiaire à inscrire :</label>
+                <select class="col-sm-8" name="stagiaireId">
+                        <option value="">-- Choisissez un stagiaire disponible --</option>
+                    {% for stagiaire in stagiaires %}
+                        {# {% if session.nbPlaces > session.nbStagiaires %} #}
+                        <option value="{{stagiaire.id}}">{{stagiaire.nomPrenom}} ({{stagiaire.age}} ans)</option>
+                        {# {% endif %} #}
+                    {% endfor %}
+                </select>
+                <div class="col-sm-2 block"><button class="button big">Inscription</button></div>
+            </div>
+        </form>
+    </div>
+            {% else %}
+    <div class="alert alert-danger center" role="alert">Aucun stagiaire disponible !</div>
+            {% endif %}
         {% else %}
-        <div class="alert alert-danger center" role="alert">Aucun stagiaire disponible !</div>
+    <div class="alert alert-danger center" role="alert">Cette session ne peut plus être modifiée !</div>
         {% endif %}
-    {% else %}
-        <div class="alert alert-danger center" role="alert">Cette session ne peut plus être modifiée !</div>
     {% endif %}
 {% endblock %}

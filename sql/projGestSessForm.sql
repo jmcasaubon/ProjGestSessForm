@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `session_stagiaire` (
   CONSTRAINT `FK_C80B23BBBA93DD6` FOREIGN KEY (`stagiaire_id`) REFERENCES `stagiaire` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projgestsessform.session_stagiaire : ~12 rows (environ)
+-- Listage des données de la table projgestsessform.session_stagiaire : ~13 rows (environ)
 DELETE FROM `session_stagiaire`;
 /*!40000 ALTER TABLE `session_stagiaire` DISABLE KEYS */;
 INSERT INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES
@@ -209,13 +209,34 @@ INSERT INTO `stagiaire` (`id`, `nom`, `prenom`, `sexe`, `date_naissance`, `adres
 	(3, 'Dupond', 'Paul', 'M', '1999-09-27', '12 rue Casimir Périer', '69002', 'Lyon', '(+33) 4.32.10.98.76', 'paul.dupond@hotmail.com'),
 	(4, 'Durand', 'Michel', 'M', '1999-07-21', '21 rue de Lyon', '68000', 'Mulhouse', '(+33) 3.21.09.87.65', 'michel.durand@hotmail.com'),
 	(5, 'Martin', 'Arthur', 'M', '2000-03-01', 'Allées des cuisines', '44730', 'St-Michel-Chef-Chef', '(+33) 2.34.56.78.90', 'arthur.martin@gmail.com'),
-	(6, 'Darc', 'Jeanne', 'F', '1999-12-31', 'Rue de l\'Annonciation', '88630', 'Domremy', '(+33) 3.57.91.24.68', 'jeanne.darc@hotmail.com'),
+	(6, 'Darc', 'Jeanne', 'F', '1999-12-31', 'Rue de l\'Annonciation', '88000', 'Épinal', '(+33) 3.57.91.24.68', 'jeanne.darc@hotmail.com'),
 	(7, 'Dubois', 'Aline', 'F', '2000-01-03', 'Allée de la forêt', '91665', 'La Ville-du-Bois', '(+33) 1.23.45.67.89', 'aline.dubois@gmail.com'),
 	(8, 'Lamère', 'Michèle', 'F', '1999-11-30', 'Avenue du Matou Matheux', '77370', 'La Chapelle-du-Mont-du-Chat', '(+33) 1.09.87.65.43', 'michele.lamere@gmail.com'),
 	(9, 'Moreau', 'Jean', 'M', '1999-06-02', '11 rue Sainte Barbe', '67260', 'Rimsdorf', '(+33) 6.78.90.12.34', 'jean.moreau@hotmail.com'),
-	(10, 'Casaubon', 'Jean-Michel', 'M', '1965-06-02', '38 Grand\'Rue', '67430', 'Diemeringen', '(+33) 6.38.26.16.22', 'jm_casaubon@orange.fr'),
+	(10, 'Casaubon', 'Jean-Michel', 'M', '1965-06-02', '38 Grand\'Rue', '67430', 'Butten', '(+33) 6.38.26.16.22', 'jm_casaubon@orange.fr'),
 	(11, 'Doe', 'John', 'M', '1965-02-28', 'wsdfghjkolp', 'xdcfgh', 'wsxdcfbjkl', 'xdfgyhukpm^ù$', 'a@b.c');
 /*!40000 ALTER TABLE `stagiaire` ENABLE KEYS */;
+
+-- Listage de la structure de la table projgestsessform. user
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `roles` json NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pseudo` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
+  UNIQUE KEY `UNIQ_8D93D64986CC499D` (`pseudo`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table projgestsessform.user : ~2 rows (environ)
+DELETE FROM `user`;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `pseudo`) VALUES
+	(1, 'jmcasaubon@gmail.com', '["ROLE_ADMIN"]', '$argon2i$v=19$m=65536,t=4,p=1$bEdtcFAycWtEVzNQZmtnQw$egGgIc5pLYn24Njl9qxnotERHoYNTb9/2cul6W1Oido', 'jmc'),
+	(4, 'jm_casaubon@orange.fr', '[]', '$argon2i$v=19$m=65536,t=4,p=1$blgzWkVkM0kxTXBTc2lJVA$O5+fm7DUMbwRGx6BFQHAf2xMVy+kQLbJBdlqBP3Scio', 'jmc-65');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
