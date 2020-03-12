@@ -7,7 +7,7 @@
     <p class="right mg-top"><a class="button big" href="{{path('add_stagiaire')}}">Ajouter un stagiaire</a></p>
     {% endif %}
     <h1 class="center no-mg-top">Liste des stagiaires</h1>
-    <table id="liste-stagiaires" class="with-borders tablesorter">
+    <table id="liste-stagiaires" class="with-borders sort-table">
         <thead>
             <tr>
                 <th class="left">Nom</th>
@@ -18,9 +18,9 @@
                 <th class="center">Nb. sessions<br>en cours</th>
                 <th class="center">Nb. sessions<br>à venir</th>
                 {% if is_granted('ROLE_ADMIN') %}
-                <th class="center">Action(s)</th>
+                <th class="center no-sort">Action(s)</th>
                 {% else %}
-                <th class="center">Détails</th>
+                <th class="center no-sort">Détails</th>
                 {% endif %}
             </tr>
         </thead>
@@ -30,11 +30,11 @@
                 <td class="left">{{stagiaire.nom | upper}}</td>
                 <td class="left">{{stagiaire.prenom | title}}</td>
                 <td class="center">{{stagiaire.sexe}}</td>
-                <td class="center">{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
+                <td class="center" data-sort="{{stagiaire.dateNaissance | date("Y-m-d")}}">{{stagiaire.dateNaissance | date("d/m/Y")}}</td>
                 <td class="center">{{stagiaire.nbSessionsAchevees}}</td>
                 <td class="center">{{stagiaire.nbSessionsEnCours}}</td>
                 <td class="center">{{stagiaire.nbSessionsFutures}}</td>
-                <td class="center">
+                <td class="center no-sort">
                     <a class="button" href="{{path('detail_stagiaire', {'id': stagiaire.id})}}"><i class="far fa-eye"></i></a>
                     {% if is_granted('ROLE_ADMIN') %}
                         {% if stagiaire.nbSessionsSuivies == 0 %}
