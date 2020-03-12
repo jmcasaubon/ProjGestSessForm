@@ -84,6 +84,7 @@ class StagiaireType extends AbstractType
             ->add('sexe',           ChoiceType::class, [
                 'label' => 'Genre',
                 'choices' => [ 'Masculin' => 'M', 'Féminin' => 'F', 'Non spécifié' => '-' ],
+                'attr' => [ 'class' => 'form-check-inline'],
                 'expanded' => true,
                 'multiple' => false
             ])

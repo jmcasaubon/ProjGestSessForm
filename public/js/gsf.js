@@ -131,4 +131,12 @@ $(document).ready(function() { // Une fois que le document (base.html.twig) HTML
         })
     })
 
+    $('#liste-sessions').DataTable({
+        "paging":   false,
+        "info":     false
+    })
+    $('#liste-stagiaires').DataTable({
+        "paging":   false,
+        "info":     false
+    })
 })

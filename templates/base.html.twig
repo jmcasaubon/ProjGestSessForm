@@ -12,6 +12,7 @@
                   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
                   crossorigin="anonymous">
             <!-- Inclusion des styles personnels -->
+            <link rel="stylesheet" href="{{asset('css/datatables.css')}}" />
             <link rel="stylesheet" href="{{asset('css/style.css')}}" />
         {% endblock %}
     </head>
@@ -26,7 +27,9 @@
             <nav id="menu">
                 <a class="button big" href="{{path('home')}}">Accueil</a>
                 <a class="button big" href="{{path('home_session')}}">Sessions</a>
+                {% if is_granted('ROLE_FORM') %}
                 <a class="button big" href="{{path('home_stagiaire')}}">Stagiaires</a>
+                {% endif %}
                 {# <a class="button big" href="{{path('home_programme')}}">Programmation</a> #}
                 {% if app.user %}
                     <a class="button user" href="{{path('app_logout')}}">Déconnexion : {{ app.user.pseudo | upper }}</a>
@@ -99,6 +102,7 @@
                 src="https://kit.fontawesome.com/5bda009b12.js" 
                 crossorigin="anonymous"></script> 
             <!-- Inclusion du JavaScript local -->
+            <script src="{{asset('js/datatables.js')}}"></script>
             <script src="{{asset('js/gsf.js')}}"></script>
         {% endblock %}
     </body>

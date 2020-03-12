@@ -33,6 +33,7 @@ class StagiaireController extends AbstractController
 {
     /**
      * @Route("/", name="home_stagiaire")
+     * @IsGranted("ROLE_FORM")
      */
     public function index()
     {
@@ -233,6 +234,7 @@ class StagiaireController extends AbstractController
 
     /**
      * @Route("/{id}", name="detail_stagiaire")
+     * @IsGranted("ROLE_FORM")
      */
     public function detail(Stagiaire $stagiaire): Response {
         // $sessions = $this->getDoctrine()
