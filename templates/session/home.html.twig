@@ -7,7 +7,7 @@
     <p class="right mg-top"><a class="button big" href="{{path('add_session')}}">Ajouter une session</a></p>
     {% endif %}
     <h1 class="center no-mg-top">Liste des sessions</h1>
-    <table id="liste-sessions" class="with-borders tablesorter">
+    <table id="liste-sessions" class="with-borders sort-table">
         <thead>
             <tr>
                 <th class="left">Intitulé session</th>
@@ -19,9 +19,9 @@
                 <th class="center">Nb. Places<br>réservées</th>
                 <th class="center">Nb. Places<br>disponibles</th>
                 {% if is_granted('ROLE_FORM') %}
-                <th class="center">Action(s)</th>
+                <th class="center no-sort">Action(s)</th>
                 {% else %}
-                <th class="center">Détails</th>
+                <th class="center no-sort">Détails</th>
                 {% endif %}
             </tr>
         </thead>
@@ -29,8 +29,8 @@
             {% for session in sessions %}
             <tr>
                 <td class="left">{% if not session.future %}<i class="fas fa-lock light-blue"></i>&nbsp;{% endif %}{{session.intitule}}</td>
-                <td class="center">{{session.dateDebut | date("d/m/Y")}}</td>
-                <td class="center">{{session.dateFin | date("d/m/Y")}}</td>
+                <td class="center" data-sort="{{session.dateDebut | date("Y-m-d")}}">{{session.dateDebut | date("d/m/Y")}}</td>
+                <td class="center" data-sort="{{session.dateFin | date("Y-m-d")}}">{{session.dateFin | date("d/m/Y")}}</td>
                 <td class="center">{{session.nbJoursOuvres}}</td>
                 <td class="center">{{session.duree}}</td>
                 <td class="center">{{session.nbPlaces}}</td>
@@ -42,7 +42,7 @@
                     <span class="badge badge-pill light-blue-back">complète</span>
                     {% endif %}
                 </td>
-                <td class="center">
+                <td class="center no-sort">
                     <a class="button" href="{{path('detail_session', {'id': session.id})}}"><i class="far fa-eye"></i></a>
                     {% if is_granted('ROLE_FORM') and (session.nbStagiaires == 0) %}
                     <a class="button remove-session-confirm"
