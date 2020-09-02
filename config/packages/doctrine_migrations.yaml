@@ -1,5 +1,9 @@
 doctrine_migrations:
-    dir_name: '%kernel.project_dir%/src/Migrations'
+    # dir_name: '%kernel.project_dir%/src/Migrations'   ==> Bug composer update package v2.x > v3.x (by JMC, 06/29/2020)
     # namespace is arbitrary but should be different from App\Migrations
     # as migrations classes should NOT be autoloaded
-    namespace: DoctrineMigrations
+    # namespace: DoctrineMigrations                     ==> Bug composer update package v2.x > v3.x (by JMC, 06/29/2020)
+    # Bug composer update package v2.x > v3.x (by JMC, 06/29/2020) :
+    # 'dir-name' and 'namespace' parameters no more exist, replaced by 'migrations_path'
+    migrations_paths:
+        'DoctrineMigrations': '%kernel.project_dir%/src/Migrations'
