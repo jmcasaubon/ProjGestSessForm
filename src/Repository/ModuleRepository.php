@@ -8,8 +8,8 @@
 namespace App\Repository;
 
 use App\Entity\Module;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Module|null find($id, $lockMode = null, $lockVersion = null)

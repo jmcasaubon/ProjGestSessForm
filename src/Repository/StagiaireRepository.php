@@ -7,10 +7,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Stagiaire;
 use App\Entity\Session;
+use App\Entity\Stagiaire;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Stagiaire|null find($id, $lockMode = null, $lockVersion = null)
