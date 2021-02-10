@@ -1,4 +1,4 @@
-BASENAME="../PGSF_"
+BASENAME="../GSF_"
 TARGZEXT=".tar.gz"
 DBSQLEXT=".sql"
 
