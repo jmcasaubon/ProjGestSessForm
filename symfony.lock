@@ -114,17 +114,11 @@
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
-    "ocramius/package-versions": {
-        "version": "1.4.2"
-    },
     "phar-io/manifest": {
         "version": "2.0.1"
     },
     "phar-io/version": {
         "version": "3.1.0"
-    },
-    "php": {
-        "version": "7.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.0.0"
@@ -134,9 +128,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.0.1"
-    },
-    "phpspec/prophecy": {
-        "version": "1.13.0"
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.6"
