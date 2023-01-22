@@ -225,7 +225,7 @@ class Stagiaire
     // Méthodes personnalisées
     //
 
-    public function __toString(): ?string
+    public function __toString(): string
     {
         return $this->getNomPrenom();
     }
